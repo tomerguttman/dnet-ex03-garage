@@ -5,9 +5,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{58B823F0-B58F-46AB-B26E-54356A04A585}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ex03.GarageLogic</RootNamespace>
+    <RootNamespace>Ex03_GarageLogic</RootNamespace>
     <AssemblyName>Ex03.GarageLogic</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Car.cs" />
+    <Compile Include="Constructors.cs" />
+    <Compile Include="ElectricalMotorcycle.cs" />
+    <Compile Include="ElectricCar.cs" />
+    <Compile Include="FuelCar.cs" />
+    <Compile Include="FuelMotorcycle.cs" />
+    <Compile Include="Motorcycle.cs" />
+    <Compile Include="Tire.cs" />
+    <Compile Include="Truck.cs" />
+    <Compile Include="Vehicle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
