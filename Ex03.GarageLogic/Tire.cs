@@ -2,7 +2,7 @@
 
 namespace Ex03_GarageLogic
 {
-    class Tire
+    public class Tire
     {
         string m_ManufacturerName;
         float m_CurrentTirePressure;

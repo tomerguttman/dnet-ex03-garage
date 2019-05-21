@@ -2,73 +2,42 @@
 
 namespace Ex03_GarageLogic
 {
-    abstract class Vehicle 
+    public abstract class Vehicle
     {
-        string m_ModelName;
-        string m_LicenceNumber;
-        float m_EnergyPercentage;
-        Tire[] m_Tires;
+        protected string m_ModelName;
+        protected string m_LicenseNumber;
+        protected float m_EnergyPercentage;
+        protected float m_MaxAmountOfEnergy;
+        protected float m_CurrentAmountOfEnergy;
+        protected Tire[] m_Tires;
 
-        protected Vehicle()
+        protected Vehicle(string i_LicenseNumber, float i_MaxAmountOfEnergy, int i_NumOfTires)
         {
-
+            m_LicenseNumber = i_LicenseNumber;
+            M_MaxAmountOfEnergy = i_MaxAmountOfEnergy;
+            m_Tires = new Tire[i_NumOfTires];
         }
 
-        string M_ModelName
-        {
-            get
-            {
-                return m_ModelName;
-            }
-            set
-            {
-                this.m_ModelName = value;
-            }
-        }
 
-        string M_LicenseNumber
-        {
-            get
-            {
-                return m_LicenceNumber;
-            }
-            set
-            {
-                this.m_LicenceNumber = value;
-            }
-        }
+        abstract public string M_ModelName { get; set; }
 
-        float M_EnergyPercentage
-        {
-            get
-            {
-                return m_EnergyPercentage;
-            }
-            set
-            {
-                this.m_EnergyPercentage = value;
-            }
-        }
+        abstract public string M_LicenseNumber { get; set; }
 
-        Tire[] M_Tires
-        {
-            get
-            {
-                return m_Tires;
-            }
-            set
-            {
-                this.m_Tires = value;
-            }
-        }
+        abstract public float M_EnergyPercentage { get; set; }
 
-     internal enum eFuel
-    {
-        Octane95,
-        Octane96,
-        Octane98,
-        Soler,
-    }
+        abstract public float M_CurrentAmountOfEnergy { get; set; }
+
+        abstract public float M_MaxAmountOfEnergy { get; set; }
+
+        abstract public Tire[] M_Tires { get; set; }
+
+        public enum eFuel
+        {
+            Octane95,
+            Octane96,
+            Octane98,
+            Soler,
+        }
 
     }
 }

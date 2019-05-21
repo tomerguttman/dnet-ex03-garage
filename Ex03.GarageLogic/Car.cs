@@ -6,15 +6,15 @@ namespace Ex03_GarageLogic
     {
         protected eColor m_CarColor;
         protected int m_NumOfDoors;
-        protected static readonly int sr_NumOfTires = 4;
-        protected static readonly float sr_CarTirePressure = 31;
+        protected const int k_NumOfTires = 4;
+        protected const float k_CarTirePressure = 31;
 
-        protected Car() : base()
+        protected Car(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires)
         {
-
+            ///remember to enter m_CurrentAmountOfFuel using set method.
         }
 
-        protected enum eColor
+        public enum eColor
         {
             Red,
             Blue,
@@ -22,28 +22,8 @@ namespace Ex03_GarageLogic
             Gray,
         }
 
-        eColor M_CarColor
-        {
-            get
-            {
-                return m_CarColor;
-            }
-            set
-            {
-                this.m_CarColor = value;
-            }
-        }
+        eColor M_CarColor { get; set; }
 
-        int M_NumOfDoors
-        {
-            get
-            {
-                return m_NumOfDoors;
-            }
-            set
-            {
-                this.m_NumOfDoors = value;
-            }
-        }
+        int M_NumOfDoors { get; set; }
     }
 }
