@@ -22,7 +22,7 @@ namespace Ex03_GarageLogic
             Gray,
         }
 
-        eColor M_CarColor
+        public eColor M_CarColor
         {
             get
             {
@@ -34,7 +34,7 @@ namespace Ex03_GarageLogic
             }
         }
 
-        int M_NumOfDoors
+        public int M_NumOfDoors
         {
             get
             {
@@ -69,7 +69,7 @@ namespace Ex03_GarageLogic
                     break;
 
                 default:
-                    throw (new FormatException("Input invalid ! ! !"));
+                    throw (new FormatException("Input invalid ! ! !\nPlease enter a color from the list!"));
             }
 
             return carColor;

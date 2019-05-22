@@ -17,7 +17,7 @@ namespace Ex03_GarageLogic
 
         protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires) { }
 
-        string M_LicenseType
+        public string M_LicenseType
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Ex03_GarageLogic
             }
         }
 
-        int M_EngineVolume
+        public int M_EngineVolume
         {
             get
             {
