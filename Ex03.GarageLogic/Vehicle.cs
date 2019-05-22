@@ -14,7 +14,7 @@ namespace Ex03_GarageLogic
         protected Vehicle(string i_LicenseNumber, float i_MaxAmountOfEnergy, int i_NumOfTires)
         {
             m_LicenseNumber = i_LicenseNumber;
-            M_MaxAmountOfEnergy = i_MaxAmountOfEnergy;
+            m_MaxAmountOfEnergy = i_MaxAmountOfEnergy;
             m_Tires = new Tire[i_NumOfTires];
         }
 
