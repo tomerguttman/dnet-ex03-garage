@@ -7,7 +7,7 @@ namespace Ex03_GarageLogic
         private string m_OwnerName;
         private string m_OwnerPhoneNumber;
         private eGarageStatus m_CurrentStatus;
-        private Vehicle m_Vehicle;
+        private Vehicle m_Vehicle = null;
 
         public GarageSlot(string i_OwnerName, string i_OwnerPhoneNumber, Vehicle i_vehicle)
         {
@@ -30,6 +30,10 @@ namespace Ex03_GarageLogic
             {
                 return m_OwnerName;
             }
+            set
+            {
+                this.m_OwnerName = value;
+            }
         }
 
         public string M_OwnerPhoneNumber
@@ -37,6 +41,10 @@ namespace Ex03_GarageLogic
             get
             {
                 return M_OwnerPhoneNumber;
+            }
+            set
+            {
+                this.m_OwnerPhoneNumber = value;
             }
         }
 
@@ -58,8 +66,25 @@ namespace Ex03_GarageLogic
             {
                 return m_Vehicle;
             }
+            set
+            {
+                this.m_Vehicle = value;
+            }
         }
 
-        //inflate, fuel, return car details, update vehicle status, 
+        public void InflateTires(float i_AmountOfPressureToAdd)
+        {
+            m_Vehicle.InflateAllTires(i_AmountOfPressureToAdd);
+        }
+        
+        public void RefillEnergySource(float i_AmountOfEnergySourceToAdd)
+        {
+            m_Vehicle.RefillEnergySource(i_AmountOfEnergySourceToAdd);
+        }
+
+        public void UpdateVehicleStatus(eGarageStatus i_NewVehicleStatus)
+        {
+            M_CurrentStatus = i_NewVehicleStatus;
+        }
     }
 }

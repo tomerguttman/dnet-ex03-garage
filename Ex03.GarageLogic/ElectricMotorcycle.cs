@@ -2,12 +2,11 @@
 
 namespace Ex03_GarageLogic
 {
-    public class FuelMotorcycle : Motorcycle
+    class ElectricMotorcycle : Motorcycle
     {
-        private const eFuel k_TypeOfFuel = eFuel.Octane95;
-        private const float k_MaxAmountOfFuel = 8;
+        private const float k_MaxHoursBatteryLife = 1.4f;
 
-        public FuelMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxAmountOfFuel)
+        public ElectricMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxHoursBatteryLife)
         {
 
         }
@@ -85,12 +84,5 @@ namespace Ex03_GarageLogic
         //    }
         //}
 
-        public eFuel K_TypeOfFuel
-        {
-            get
-            {
-                return k_TypeOfFuel;
-            }
-        }
     }
 }

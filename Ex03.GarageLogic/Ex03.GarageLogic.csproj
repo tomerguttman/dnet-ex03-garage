@@ -36,15 +36,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
-    <Compile Include="Constructors.cs" />
-    <Compile Include="ElectricalMotorcycle.cs" />
+    <Compile Include="ElectricMotorcycle.cs" />
     <Compile Include="ElectricCar.cs" />
     <Compile Include="FuelCar.cs" />
     <Compile Include="FuelMotorcycle.cs" />
+    <Compile Include="Garage.cs" />
+    <Compile Include="GarageSlot.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Tire.cs" />
     <Compile Include="Truck.cs" />
+    <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle.cs" />
+    <Compile Include="VehicleCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

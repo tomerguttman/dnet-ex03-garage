@@ -18,18 +18,105 @@ namespace Ex03_GarageLogic
             m_Tires = new Tire[i_NumOfTires];
         }
 
+        public string M_ModelName
+        {
+            get
+            {
+                return m_ModelName;
+            }
+            set
+            {
+                this.m_ModelName = value;
+            }
+        }
 
-        abstract public string M_ModelName { get; set; }
+        public string M_LicenseNumber
+        {
+            get
+            {
+                return m_LicenseNumber;
+            }
+            set
+            {
+                this.m_LicenseNumber = value;
+            }
+        }
 
-        abstract public string M_LicenseNumber { get; set; }
+        public float M_EnergyPercentage
+        {
+            get
+            {
+                return m_EnergyPercentage;
+            }
+            set
+            {
+                this.m_EnergyPercentage = value;
+            }
+        }
 
-        abstract public float M_EnergyPercentage { get; set; }
+        public float M_CurrentAmountOfEnergy
+        {
+            get
+            {
+                return m_CurrentAmountOfEnergy;
+            }
+            set
+            {
+                this.m_CurrentAmountOfEnergy = value;
+            }
+        }
 
-        abstract public float M_CurrentAmountOfEnergy { get; set; }
+        public float M_MaxAmountOfEnergy
+        {
+            get
+            {
+                return m_MaxAmountOfEnergy;
+            }
+            set
+            {
+                this.m_MaxAmountOfEnergy = value;
+            }
+        }
 
-        abstract public float M_MaxAmountOfEnergy { get; set; }
+        public void InflateAllTires(float i_AmountOfPressureToAdd)
+        {
+            foreach (Tire tire in m_Tires)
+            {
+                try
+                {
+                    tire.InflateTire(i_AmountOfPressureToAdd);
+                }
+                catch (ValueOutOfRangeException exception)
+                {
+                    System.Console.WriteLine(exception.Message);
+                    break;
+                }
+            }
+        }
 
-        abstract public Tire[] M_Tires { get; set; }
+        public void RefillEnergySource(float i_AmountOfEnergySourceToAdd)
+        {
+            if(i_AmountOfEnergySourceToAdd + m_CurrentAmountOfEnergy > m_MaxAmountOfEnergy )
+            {
+                throw (new ValueOutOfRangeException(m_MaxAmountOfEnergy, 0, "The amount that was entered is too much for this vehicle ! ! !"));  
+            }
+            else
+            {
+                m_CurrentAmountOfEnergy += i_AmountOfEnergySourceToAdd;
+            }
+        }
+
+        public Tire[] M_Tires
+        {
+            get
+            {
+                return m_Tires;
+            }
+            set
+            {
+                this.m_Tires = value;
+            }
+        }
 
         public enum eFuel
         {
@@ -38,6 +125,5 @@ namespace Ex03_GarageLogic
             Octane98,
             Soler,
         }
-
     }
 }

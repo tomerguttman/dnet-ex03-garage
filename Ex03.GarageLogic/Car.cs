@@ -2,7 +2,7 @@
 
 namespace Ex03_GarageLogic
 {
-    abstract class Car : Vehicle
+    public abstract class Car : Vehicle
     {
         protected eColor m_CarColor;
         protected int m_NumOfDoors;
@@ -22,8 +22,57 @@ namespace Ex03_GarageLogic
             Gray,
         }
 
-        eColor M_CarColor { get; set; }
+        eColor M_CarColor
+        {
+            get
+            {
+                return m_CarColor;
+            }
+            set
+            {
+                this.m_CarColor = value;
+            }
+        }
 
-        int M_NumOfDoors { get; set; }
+        int M_NumOfDoors
+        {
+            get
+            {
+                return m_NumOfDoors;
+            }
+            set
+            {
+                this.m_NumOfDoors = value;
+            }
+        }
+
+        public static eColor ToECarColor(string i_strColor)
+        {
+            eColor carColor;
+
+            switch(i_strColor)
+            {
+                case "Red":
+                    carColor = eColor.Red;
+                    break;
+
+                case "Blue":
+                    carColor = eColor.Blue;
+                    break;
+
+                case "Black":
+                    carColor = eColor.Black;
+                    break;
+
+                case "Gray":
+                    carColor = eColor.Gray;
+                    break;
+
+                default:
+                    throw (new FormatException("Input invalid ! ! !"));
+            }
+
+            return carColor;
+        } 
     }
 }
