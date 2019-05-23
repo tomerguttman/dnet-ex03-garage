@@ -17,6 +17,7 @@ namespace Ex03_ConsoleUI
         {
             Vehicle newVehicle = null;
             string licenseNumber = null;
+            string typeOfVehicle = null;
 
             Console.Write("Please enter the Vehicle's License number: ");
             licenseNumber = Console.ReadLine();
@@ -24,37 +25,39 @@ namespace Ex03_ConsoleUI
 
             try
             {
-                newVehicle =  VehicleCreator.CreateVehicle(VehicleCreator.ToEVehicle(Console.ReadLine()), licenseNumber);
+                typeOfVehicle = Console.ReadLine();
+                newVehicle =  VehicleCreator.CreateVehicle(VehicleCreator.ToEVehicle(typeOfVehicle), licenseNumber);
             }
             catch(ArgumentException exception)
             {
                 System.Console.WriteLine(exception.Message);
             }
 
-            AddGarageSlotToTheGarage(io_MyGarage, newVehicle);
+            AddGarageSlotToTheGarage(io_MyGarage, newVehicle, typeOfVehicle);
         }
 
-        public static void AddGarageSlotToTheGarage(Garage io_MyGarage, Vehicle i_newVehicle)
+        public static void AddGarageSlotToTheGarage(Garage io_MyGarage, Vehicle i_newVehicle, string i_TypeOfVehicle)
         {
-            bool wasExceptionThrown = false;
+            bool enterLoop = true;
             GarageSlot newGarageSlot = null;
 
             if (io_MyGarage.M_MyGarage.TryGetValue(i_newVehicle.M_LicenseNumber,out newGarageSlot) == false)
             {
-                while (!wasExceptionThrown)
+                while (enterLoop)
                 {
                     try
                     {
                         CreateNewGarageSlot(out newGarageSlot, i_newVehicle);
+                        enterLoop = false;
                     }
                     catch(FormatException exception)
                     {
-                        wasExceptionThrown = true;
+                        enterLoop = true;
                         System.Console.WriteLine(exception.Message);
                     }
                 }
 
-                RecieveAdditionalVehicleInformation(newGarageSlot);
+                RecieveAdditionalVehicleInformation(newGarageSlot, i_TypeOfVehicle);
                 io_MyGarage.M_MyGarage.Add(i_newVehicle.M_LicenseNumber, newGarageSlot);
             }
             else
@@ -89,241 +92,40 @@ namespace Ex03_ConsoleUI
             return int.TryParse(i_ownerPhoneNumber, out fakeOutParameter) && i_ownerPhoneNumber.Length == 10; 
         }
 
-        public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot)
+        public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot, string i_TypeOfVehicle)
         {
-            if (newGarageSlot.M_Vehicle is Car)
-            {
-                RecieveAdditionalCarInformation(newGarageSlot);
-            }
-            else if (newGarageSlot.M_Vehicle is Motorcycle)
-            {
-                RecieveAdditionalMotorcycleInformation(newGarageSlot);
-            }
-            else if (newGarageSlot.M_Vehicle is Truck)
-            {
-                RecieveAdditionalTruckInformation(newGarageSlot);
-            }
-        }
-
-        public static void RecieveAdditionalCarInformation(GarageSlot io_newGarageSlot)
-        {
-            Car newCar = io_newGarageSlot.M_Vehicle as Car;
             bool enterLoop = true;
-            int numberOfDoors = 0;
-            Car.eColor carColor = Car.eColor.Black;
 
-            Console.WriteLine("Enter the car's color (Red, Blue, Black, Gray):");
+            Console.WriteLine("Enter the vehicle's model name:");
+            newGarageSlot.M_Vehicle.M_ModelName = Console.ReadLine();
 
-            while (enterLoop)
+            if (i_TypeOfVehicle.Equals("1") || i_TypeOfVehicle.Equals("2"))
             {
-                try
-                {
-                    carColor = Car.ToECarColor(System.Console.ReadLine());
-                    enterLoop = false;
-                }
-                catch(FormatException exception)
-                {
-                    enterLoop = true;
-                    System.Console.WriteLine(exception.Message);
-                }
+                Console.WriteLine("how much battery life remains in the vehicle?");
+            }
+            else
+            {
+                Console.WriteLine("How much fuel remains in the vehicle?");
             }
 
-            newCar.M_CarColor = carColor;
-
-            enterLoop = true;
-
-            System.Console.WriteLine("Enter the number of doors that the car has (between 2 and 5):");
-
-            while(enterLoop)
+            while (enterLoop == true)
             {
                 try
                 {
-                    numberOfDoors = ToInt(Console.ReadLine());
-                    numberOfDoors = CheckIfParameterIsWithinRange(2, 5, numberOfDoors);
+                    newGarageSlot.M_Vehicle.UpdateEnergySource(Console.ReadLine());
                     enterLoop = false;
                 }
                 catch (Exception exception)
                 {
-                    enterLoop = true;
                     Console.WriteLine(exception.Message);
-                }
-            }
-
-            newCar.M_NumOfDoors = numberOfDoors;
-        }
-
-        public static void RecieveAdditionalMotorcycleInformation(GarageSlot io_newGarageSlot)
-        {
-            Motorcycle newMotorcycle = io_newGarageSlot.M_Vehicle as Motorcycle;
-            bool enterLoop = true;
-            int engineVolume = 0;
-            string licenseType = null;
-
-            Console.WriteLine("Enter the motorcycle's license type (A, A1, A2, B):");
-
-            while (enterLoop)
-            {
-                try
-                {
-                    licenseType = ReturnLicenseTypeIfValid(Console.ReadLine());
-                    enterLoop = false;
-                }
-                catch (ArgumentException exception)
-                {
                     enterLoop = true;
-                    System.Console.WriteLine(exception.Message);
                 }
             }
 
-            newMotorcycle.M_LicenseType = licenseType;
+            string[] additionalInformationNeeded = newGarageSlot.M_Vehicle.ReturnAdditionalInformationNeeded();
 
-            enterLoop = true;
+            Console.WriteLine(additionalInformationNeeded[0]);
 
-            System.Console.WriteLine("Enter the motorcycle's engine volume: ");
-
-            while (enterLoop)
-            {
-                try
-                {
-                    engineVolume = ToInt(Console.ReadLine());
-                    enterLoop = false;
-                }
-                catch (FormatException exception)
-                {
-                    enterLoop = true;
-                    Console.WriteLine(exception.Message);
-                }
-            }
-
-            newMotorcycle.M_EngineVolume = engineVolume;
-        }
-
-        public static void RecieveAdditionalTruckInformation(GarageSlot io_newGarageSlot)
-        {
-            Truck newTruck = io_newGarageSlot.M_Vehicle as Truck;
-            bool enterLoop = true;
-            float loadVolume = 0f;
-
-            Console.WriteLine("Enter the truck's load volume:");
-
-            while (enterLoop)
-            {
-                try
-                {
-                    loadVolume = ToFloat(Console.ReadLine());
-                    enterLoop = false;
-                }
-                catch (FormatException exception)
-                {
-                    enterLoop = true;
-                    System.Console.WriteLine(exception.Message);
-                }
-            }
-
-            newTruck.M_LoadVolume = loadVolume;
-
-            enterLoop = true;
-
-            System.Console.WriteLine("Is the truck hauling dangerous materials? ('yes' or 'n')");
-
-            while (!enterLoop)
-            {
-                try
-                {
-                    newTruck.M_IsHaulingDangerousMaterials = IsHaulingDangerousMaterials(Console.ReadLine());
-                    enterLoop = false;
-                }
-                catch (FormatException exception)
-                {
-                    enterLoop = true;
-                    Console.WriteLine(exception.Message);
-                }
-            }
-        }
-
-        public static int ToInt(string i_StrToParse)
-        {
-            int o_OutputInt = 0;
-            bool didParseSucceed = int.TryParse(i_StrToParse, out o_OutputInt);
-
-            if (didParseSucceed == false)
-            {
-                throw (new FormatException("Invalid input ! ! !"));
-            }
-
-            return o_OutputInt;
-        }
-
-        public static float ToFloat(string i_StrToParse)
-        {
-            float o_OutputFloat = 0f;
-            bool didParseSucceed = float.TryParse(i_StrToParse, out o_OutputFloat);
-
-            if (didParseSucceed == false)
-            {
-                throw (new FormatException("Invalid input ! ! !"));
-            }
-
-            return o_OutputFloat;
-        }
-
-        public static string ReturnLicenseTypeIfValid(string i_StrInputLicenseType)
-        {
-            string o_LicenseType = null;
-
-            switch(i_StrInputLicenseType)
-            {
-                case "A":
-                    o_LicenseType = i_StrInputLicenseType;
-                    break;
-
-                case "A1":
-                    o_LicenseType = i_StrInputLicenseType;
-                    break;
-
-                case "A2":
-                    o_LicenseType = i_StrInputLicenseType;
-                    break;
-
-                case "B":
-                    o_LicenseType = i_StrInputLicenseType;
-                    break;
-
-                default:
-                    throw (new ArgumentException("Please Choose one of the given license types ! ! !"));
-            }
-
-            return o_LicenseType;
-        }
-
-        public static int CheckIfParameterIsWithinRange(int i_MaxParam, int i_MinParam, int i_ValueToCheck)
-        {
-            if(i_ValueToCheck > i_MaxParam || i_ValueToCheck < i_MinParam)
-            {
-                throw (new ValueOutOfRangeException(i_MaxParam, i_MinParam, "Please choose from the range given ! ! !"));
-            }
-
-            return i_ValueToCheck;
-        }
-
-        public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
-        {
-            bool isHaulingDangerouseMaterials = false;
-
-            if(i_InputAnswer.Equals("yes"))
-            {
-                isHaulingDangerouseMaterials = true;
-            }
-            else if(i_InputAnswer.Equals("no"))
-            {
-                isHaulingDangerouseMaterials = false;
-            }
-            else
-            {
-                throw (new ArgumentException("Please answer 'yes' or 'no'"));
-            }
-
-            return isHaulingDangerouseMaterials;
         }
     }
 }

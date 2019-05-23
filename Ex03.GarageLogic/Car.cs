@@ -11,7 +11,6 @@ namespace Ex03_GarageLogic
 
         protected Car(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires)
         {
-            ///remember to enter m_CurrentAmountOfFuel using set method.
         }
 
         public enum eColor
@@ -20,6 +19,21 @@ namespace Ex03_GarageLogic
             Blue,
             Black,
             Gray,
+        }
+
+        public override string[] ReturnAdditionalInformationNeeded()
+        {
+            string[] o_AdditionalInformation = new string[2];
+            o_AdditionalInformation[0] = "Enter the number of doors the car has (between 2 and 5):";
+            o_AdditionalInformation[1] = "Enter the color of the car (Red, Blue, Black, Gray):";
+
+            return o_AdditionalInformation;
+        }
+
+        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        {
+            m_NumOfDoors = this.ToInt(i_InputInformation[0]);
+            m_CarColor = this.ToECarColor(i_InputInformation[1]);
         }
 
         public eColor M_CarColor
@@ -46,25 +60,25 @@ namespace Ex03_GarageLogic
             }
         }
 
-        public static eColor ToECarColor(string i_strColor)
+        protected eColor ToECarColor(string i_strColor)
         {
             eColor carColor;
 
-            switch(i_strColor)
+            switch(i_strColor.ToLower())
             {
-                case "Red":
+                case "red":
                     carColor = eColor.Red;
                     break;
 
-                case "Blue":
+                case "blue":
                     carColor = eColor.Blue;
                     break;
 
-                case "Black":
+                case "black":
                     carColor = eColor.Black;
                     break;
 
-                case "Gray":
+                case "gray":
                     carColor = eColor.Gray;
                     break;
 

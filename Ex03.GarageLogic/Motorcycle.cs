@@ -4,18 +4,64 @@ namespace Ex03_GarageLogic
 {
     public abstract class Motorcycle : Vehicle
     {
-        string m_LicenceType;
+        eLicenseType m_LicenceType;
         int m_EngineVolume;
         protected const int k_NumOfTires = 2;
-        protected const float k_MotorcycleTirePressure = 33;
-
-        //protected motorcycle(string i_licensetype, int i_enginevolume, string i_licensenumber, float i_maxamountofenergy) : base(i_licensenumber, i_maxamountofenergy, k_numoftires)
-        //{
-        //    m_licencetype = i_licensenumber;
-        //    m_enginevolume = i_enginevolume;
-        //}
+        protected const float k_MotorcycleTirePressure = 33; 
 
         protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires) { }
+
+        public override string[] ReturnAdditionalInformationNeeded()
+        {
+            string[] o_AdditionalInformation = new string[2];
+            o_AdditionalInformation[0] = "Enter the license type (A, A1, A2, B):";
+            o_AdditionalInformation[1] = "Enter the engine volume of the motorcycle:";
+
+            return o_AdditionalInformation;
+        }
+
+        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        {
+            m_LicenceType = this.ReturnLicenseTypeIfValid(i_InputInformation[0]);
+            m_EngineVolume = this.ToInt(i_InputInformation[1]);
+        }
+
+        protected eLicenseType ReturnLicenseTypeIfValid(string i_StrInputLicenseType)
+        {
+            eLicenseType o_LicenseType;
+
+            switch (i_StrInputLicenseType)
+            {
+                case "A":
+                    o_LicenseType = eLicenseType.A;
+                    break;
+
+                case "A1":
+                    o_LicenseType = eLicenseType.A1;
+                    break;
+
+                case "A2":
+                    o_LicenseType = eLicenseType.A2;
+                    break;
+
+                case "B":
+                    o_LicenseType = eLicenseType.B; ;
+                    break;
+
+                default:
+                    throw (new ArgumentException("Please Choose one of the given license types ! ! !"));
+            }
+
+            return o_LicenseType;
+        }
+
+        protected enum eLicenseType
+        {
+            A,
+            A1,
+            A2,
+            B,
+        }
 
         public string M_LicenseType
         {

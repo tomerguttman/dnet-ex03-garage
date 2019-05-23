@@ -106,6 +106,46 @@ namespace Ex03_GarageLogic
             }
         }
 
+        abstract public string[] ReturnAdditionalInformationNeeded();
+
+        abstract public void ParseInputToInformationNeeded(string[] i_InputInformation);
+
+        public int ToInt(string i_StrToParse)
+        {
+            int o_OutputInt = 0;
+            bool didParseSucceed = int.TryParse(i_StrToParse, out o_OutputInt);
+
+            if (didParseSucceed == false)
+            {
+                throw (new FormatException("Invalid input ! ! !"));
+            }
+
+            return o_OutputInt;
+        }
+
+        public float ToFloat(string i_StrToParse)
+        {
+            float o_OutputFloat = 0f;
+            bool didParseSucceed = float.TryParse(i_StrToParse, out o_OutputFloat);
+
+            if (didParseSucceed == false)
+            {
+                throw (new FormatException("Invalid input ! ! !"));
+            }
+
+            return o_OutputFloat;
+        }
+
+        public bool IsParameterIsWithinRange(float i_MaxParam, float i_MinParam, float i_ValueToCheck)
+        {
+            if (i_ValueToCheck > i_MaxParam || i_ValueToCheck < i_MinParam)
+            {
+                throw (new ValueOutOfRangeException(i_MaxParam, i_MinParam, string.Format("Please choose from the range {0}-{1} ! ! !", i_MinParam, i_MaxParam)));
+            }
+
+            return true;
+        }
+
         public Tire[] M_Tires
         {
             get
@@ -124,6 +164,59 @@ namespace Ex03_GarageLogic
             Octane96,
             Octane98,
             Soler,
+        }
+
+        public void UpdateEnergySource(string i_CurrentAmountOfEnergy)
+        {
+            float currentAmountOfEnergy = ToFloat(i_CurrentAmountOfEnergy);
+
+            if (IsParameterIsWithinRange(m_MaxAmountOfEnergy, 0, currentAmountOfEnergy))
+            {
+                m_CurrentAmountOfEnergy = currentAmountOfEnergy;
+            }
+        }
+
+        public class Tire
+        {
+            string m_ManufacturerName;
+            float m_CurrentTirePressure;
+            float m_MaxTirePressure;
+
+            string M_ManufacturerName
+            {
+                get
+                {
+                    return m_ManufacturerName;
+                }
+                set
+                {
+                    this.m_ManufacturerName = value;
+                }
+            }
+
+            float M_CurrentTirePressure
+            {
+                get
+                {
+                    return m_CurrentTirePressure;
+                }
+                set
+                {
+                    this.m_CurrentTirePressure = value;
+                }
+            }
+
+            public void InflateTire(float i_AmountOfPressureToAdd)
+            {
+                if (i_AmountOfPressureToAdd + m_CurrentTirePressure > m_MaxTirePressure)
+                {
+                    throw (new ValueOutOfRangeException(m_MaxTirePressure, 0, "The tire can't hold that much pressure ! ! !"));
+                }
+                else
+                {
+                    m_CurrentTirePressure += i_AmountOfPressureToAdd;
+                }
+            }
         }
     }
 }

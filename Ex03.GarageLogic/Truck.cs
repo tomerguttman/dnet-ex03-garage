@@ -16,16 +16,39 @@ namespace Ex03_GarageLogic
         {
         }
 
-        public bool M_IsHaulingDangerousMaterials
+        public override string[] ReturnAdditionalInformationNeeded()
         {
-            get
+            string[] o_AdditionalInformation = new string[2];
+            o_AdditionalInformation[0] = "Is the truck hauling dangerous materials?";
+            o_AdditionalInformation[1] = "Enter the load volume of the truck:";
+
+            return o_AdditionalInformation;
+        }
+
+        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        {
+            m_IsHaulingDangerousMaterials = IsHaulingDangerousMaterials(i_InputInformation[0]);
+            m_LoadVolume = this.ToFloat(i_InputInformation[1]);
+        }
+
+        public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
+        {
+            bool isHaulingDangerouseMaterials = false;
+
+            if (i_InputAnswer.ToLower().Equals("yes"))
             {
-                return m_IsHaulingDangerousMaterials;
+                isHaulingDangerouseMaterials = true;
             }
-            set
+            else if (i_InputAnswer.ToLower().Equals("no"))
             {
-                this.m_IsHaulingDangerousMaterials = value;
+                isHaulingDangerouseMaterials = false;
             }
+            else
+            {
+                throw (new ArgumentException("Please answer 'yes' or 'no'"));
+            }
+
+            return isHaulingDangerouseMaterials;
         }
 
         public float M_LoadVolume
@@ -40,76 +63,15 @@ namespace Ex03_GarageLogic
             }
         }
 
-        public override string M_ModelName
+        public bool M_IsHaulingDangerousMaterials
         {
             get
             {
-                return m_ModelName;
+                return m_IsHaulingDangerousMaterials;
             }
             set
             {
-                this.m_ModelName = value;
-            }
-        }
-
-        public override string M_LicenseNumber
-        {
-            get
-            {
-                return m_LicenseNumber;
-            }
-            set
-            {
-                this.m_LicenseNumber = value;
-            }
-        }
-
-        public override float M_EnergyPercentage
-        {
-            get
-            {
-                return m_EnergyPercentage;
-            }
-            set
-            {
-                this.m_EnergyPercentage = (m_CurrentAmountOfEnergy / m_MaxAmountOfEnergy) * 100;
-            }
-        }
-
-        public override float M_CurrentAmountOfEnergy
-        {
-            get
-            {
-                return m_CurrentAmountOfEnergy;
-            }
-            set
-            {
-                this.m_CurrentAmountOfEnergy = value;
-            }
-        }
-
-        public override float M_MaxAmountOfEnergy
-        {
-            get
-            {
-                return m_MaxAmountOfEnergy;
-            }
-            set
-            {
-                this.m_MaxAmountOfEnergy = value;
-            }
-        }
-
-        public override Tire[] M_Tires
-        {
-            get
-            {
-
-                return m_Tires;
-            }
-            set
-            {
-                this.m_Tires = value;
+                this.m_IsHaulingDangerousMaterials = value;
             }
         }
 
