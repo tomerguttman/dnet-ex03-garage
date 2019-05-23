@@ -71,7 +71,7 @@ namespace Ex03_GarageLogic
                     vehicleType = eVehicles.Truck;
                     break;
                 default:
-                    throw (new ArgumentException("Invalid choice ! ! !"));
+                    throw (new ArgumentException("Invalid choice ! ! !\nPlease enter a type from the list!"));
             }
 
             return vehicleType;

@@ -16,7 +16,7 @@ namespace Ex03_GarageLogic
         {
         }
 
-        bool M_IsHaulingDangerousMaterials
+        public bool M_IsHaulingDangerousMaterials
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Ex03_GarageLogic
             }
         }
 
-        float M_LoadVolume
+        public float M_LoadVolume
         {
             get
             {
