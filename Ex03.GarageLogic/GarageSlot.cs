@@ -84,7 +84,44 @@ namespace Ex03_GarageLogic
 
         public void UpdateVehicleStatus(eGarageStatus i_NewVehicleStatus)
         {
-            M_CurrentStatus = i_NewVehicleStatus;
+            m_CurrentStatus = i_NewVehicleStatus;
+        }
+
+        public eGarageStatus ToEGarageStatus(string i_stringVehicleStatus)
+        {
+            eGarageStatus vehicleStatus;
+
+            switch (i_stringVehicleStatus)
+            {
+                case "1":
+                    vehicleStatus = eGarageStatus.BeingFixed;
+                    break;
+
+                case "2":
+                    vehicleStatus = eGarageStatus.Ready;
+                    break;
+
+                case "3":
+                    vehicleStatus = eGarageStatus.PaidFor;
+                    break;
+
+                default:
+                    throw (new FormatException("Input invalid ! ! ! please enter a vehicle status from the given options ! ! !"));
+            }
+
+            return vehicleStatus;
+        }
+
+        public bool IsFuelTypeCorrect(string i_StrInputFuelType)
+        {
+            ;
+
+            if(m_Vehicle.ReturnFuelType() == m_Vehicle.ToEFuel(i_StrInputFuelType) == false)
+            {
+                throw (new ArgumentException("The fuel type you entered does not match the vehicle's ! ! !"));
+            }
+
+            return true;
         }
     }
 }

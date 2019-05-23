@@ -7,14 +7,12 @@ namespace Ex03_GarageLogic
         bool m_IsHaulingDangerousMaterials;
         float m_LoadVolume;
         public const eFuel k_TypeOfFuel = eFuel.Soler;
-        private const int k_NumberOfTires = 12;
+        private const int k_NumOfTires = 12;
         private const float k_TruckTirePressure = 26;
         private const float k_MaxAmountOfFuel = 110;
 
 
-        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumberOfTires)
-        {
-        }
+        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumOfTires) { }
 
         public override string[] ReturnAdditionalInformationNeeded()
         {
@@ -25,10 +23,14 @@ namespace Ex03_GarageLogic
             return o_AdditionalInformation;
         }
 
-        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
-            m_IsHaulingDangerousMaterials = IsHaulingDangerousMaterials(i_InputInformation[0]);
-            m_LoadVolume = this.ToFloat(i_InputInformation[1]);
+            m_IsHaulingDangerousMaterials = IsHaulingDangerousMaterials(i_FirstInputInformation);
+        }
+
+        public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)
+        {
+            m_LoadVolume = this.ToFloat(i_SecondInputInformation);
         }
 
         public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
@@ -75,12 +77,33 @@ namespace Ex03_GarageLogic
             }
         }
 
-        eFuel K_TypeOfFuel
+        public override eFuel ReturnFuelType()
         {
-            get
-            {
-                return k_TypeOfFuel;
-            }
+            return k_TypeOfFuel;
+        }
+
+        public override string ReturnVehicleInformation()
+        {
+            string vehicleInformation = string.Format(
+@" Vehicle Type {0} Model Name: {1}, License Number: {2}
+Tire Manufacturer: {3}, Current Tire Pressure: {4}, Max Tire Pressure {5}, Number Of Tires: {6}
+Max Fuel Amount (Liters): {7}, Current Fuel Level (Liters): {8}, Current Fuel Level (Percentage): {9}
+Load Volume: {10}, Is Hauling dangerous materials: {11}, Fuel Type: {12}",
+"Truck",
+m_ModelName,
+m_LicenseNumber,
+m_Tires[0].M_ManufacturerName,
+m_Tires[0].M_CurrentTirePressure,
+m_Tires[0].M_MaxtTirePressure,
+k_NumOfTires,
+m_MaxAmountOfEnergy,
+m_CurrentAmountOfEnergy,
+m_EnergyPercentage,
+m_LoadVolume,
+m_IsHaulingDangerousMaterials,
+ReturnFuelType().ToString());
+
+            return vehicleInformation;
         }
     }
 }

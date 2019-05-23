@@ -103,12 +103,15 @@ namespace Ex03_GarageLogic
             else
             {
                 m_CurrentAmountOfEnergy += i_AmountOfEnergySourceToAdd;
+                m_EnergyPercentage = (m_CurrentAmountOfEnergy / m_MaxAmountOfEnergy) * 100;
             }
         }
 
         abstract public string[] ReturnAdditionalInformationNeeded();
 
-        abstract public void ParseInputToInformationNeeded(string[] i_InputInformation);
+        abstract public void ParseFirstInputToInformationNeeded(string i_FirstInputInformation);
+
+        abstract public void ParseSecondInputToInformationNeeded(string i_SecondInputInformation);
 
         public int ToInt(string i_StrToParse)
         {
@@ -164,6 +167,7 @@ namespace Ex03_GarageLogic
             Octane96,
             Octane98,
             Soler,
+            Electricity,
         }
 
         public void UpdateEnergySource(string i_CurrentAmountOfEnergy)
@@ -173,8 +177,42 @@ namespace Ex03_GarageLogic
             if (IsParameterIsWithinRange(m_MaxAmountOfEnergy, 0, currentAmountOfEnergy))
             {
                 m_CurrentAmountOfEnergy = currentAmountOfEnergy;
+                m_EnergyPercentage = (m_CurrentAmountOfEnergy / m_MaxAmountOfEnergy) * 100;
             }
         }
+
+        abstract public eFuel ReturnFuelType();
+
+        public eFuel ToEFuel(string i_strFuelInput)
+        {
+            eFuel fuelType;
+
+            switch (i_strFuelInput.ToLower())
+            {
+                case "octan95":
+                    fuelType = eFuel.Octane95;
+                    break;
+
+                case "octane96":
+                    fuelType = eFuel.Octane96;
+                    break;
+
+                case "octane98":
+                    fuelType = eFuel.Octane98;
+                    break;
+
+                case "soler":
+                    fuelType = eFuel.Soler;
+                    break;
+
+                default:
+                    throw (new FormatException("Input invalid ! ! !\nPlease enter a fuel type from the list!"));
+            }
+
+            return fuelType;
+        }
+
+        abstract public string ReturnVehicleInformation();
 
         public class Tire
         {
@@ -182,7 +220,7 @@ namespace Ex03_GarageLogic
             float m_CurrentTirePressure;
             float m_MaxTirePressure;
 
-            string M_ManufacturerName
+            public string M_ManufacturerName
             {
                 get
                 {
@@ -194,7 +232,7 @@ namespace Ex03_GarageLogic
                 }
             }
 
-            float M_CurrentTirePressure
+            public float M_CurrentTirePressure
             {
                 get
                 {
@@ -203,6 +241,18 @@ namespace Ex03_GarageLogic
                 set
                 {
                     this.m_CurrentTirePressure = value;
+                }
+            }
+
+            public float M_MaxtTirePressure
+            {
+                get
+                {
+                    return m_MaxTirePressure;
+                }
+                set
+                {
+                    this.m_MaxTirePressure = value;
                 }
             }
 

@@ -30,10 +30,14 @@ namespace Ex03_GarageLogic
             return o_AdditionalInformation;
         }
 
-        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
-            m_NumOfDoors = this.ToInt(i_InputInformation[0]);
-            m_CarColor = this.ToECarColor(i_InputInformation[1]);
+            m_NumOfDoors = this.ToInt(i_FirstInputInformation);
+        }
+
+        public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)
+        {
+            m_CarColor = this.ToECarColor(i_SecondInputInformation);
         }
 
         public eColor M_CarColor
@@ -87,6 +91,6 @@ namespace Ex03_GarageLogic
             }
 
             return carColor;
-        } 
+        }
     }
 }

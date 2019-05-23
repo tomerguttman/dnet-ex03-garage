@@ -20,10 +20,14 @@ namespace Ex03_GarageLogic
             return o_AdditionalInformation;
         }
 
-        public override void ParseInputToInformationNeeded(string[] i_InputInformation)
+        public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
-            m_LicenceType = this.ReturnLicenseTypeIfValid(i_InputInformation[0]);
-            m_EngineVolume = this.ToInt(i_InputInformation[1]);
+            m_LicenceType = this.ReturnLicenseTypeIfValid(i_FirstInputInformation);
+        }
+
+        public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)
+        {
+            m_EngineVolume = this.ToInt(i_SecondInputInformation);
         }
 
         protected eLicenseType ReturnLicenseTypeIfValid(string i_StrInputLicenseType)
@@ -55,7 +59,7 @@ namespace Ex03_GarageLogic
             return o_LicenseType;
         }
 
-        protected enum eLicenseType
+        public enum eLicenseType
         {
             A,
             A1,
@@ -63,7 +67,7 @@ namespace Ex03_GarageLogic
             B,
         }
 
-        public string M_LicenseType
+        public eLicenseType M_LicenseType
         {
             get
             {
