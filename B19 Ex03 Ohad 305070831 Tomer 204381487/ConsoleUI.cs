@@ -4,13 +4,88 @@ using System.Collections.Generic;
 
 namespace Ex03_ConsoleUI
 {
-    class ConsoleUI
+    public static class ConsoleUI
     {
-        public static void GarageManagingProgram() //////////////////////// main method ///////////////////////////
+        public static void GarageManagingProgram() // main method //
         {
             Garage myGarage = new Garage();
+            bool programContinue = true;
 
-            AddNewVehicleToGarage(myGarage);
+            while (programContinue)
+            {
+                PrintGarageMenu();
+
+                try
+                {
+                    ManageUserChoiseOfAction(myGarage, Console.ReadLine(), ref programContinue);
+                }
+                catch(Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
+
+            ExitSequence();
+        }
+
+        public static void PrintGarageMenu()
+        {
+            string garageMenu;
+            garageMenu = string.Format(
+@"-------------Garage-Menu-------------
+1.Enter a new vehicle to the garage.
+2.Display all vehicle license plates in the garage.
+3.Display all vehicle license plates in the garage according to their condition.
+4.Change vehicle condition in the garage.
+5.Inflate all tires of a vehicle.
+6.Refill energy source (Fuel/Electric).
+7.Display full information of a vehicle.
+8.Exit the program.
+
+Please choose your action by entering a number between 1-9");
+            Console.WriteLine(garageMenu);
+        }
+
+        public static void ManageUserChoiseOfAction(Garage io_MyGarage, string i_UserChoiceOfAction , ref bool io_ProgramContinue)
+        {
+            Console.WriteLine("------------------------------------------------------");
+            switch (i_UserChoiceOfAction)
+            {
+                case ("1"):
+                    AddNewVehicleToGarage(io_MyGarage);
+                    break;
+
+                case ("2"):
+                    PrintAllVehicleInTheGarage(io_MyGarage, i_UserChoiceOfAction);
+                    break;
+
+                case ("3"):
+                    PrintAllVehicleInTheGarage(io_MyGarage, i_UserChoiceOfAction);
+                    break;
+
+                case ("4"):
+                    ChangeVehicleStatus(io_MyGarage);
+                    break;
+
+                case ("5"):
+                    InflateVehicleTires(io_MyGarage);
+                    break;
+
+                case ("6"):
+                    FuelVehicle(io_MyGarage);
+                    break;
+
+                case ("7"):
+                    PrintVehicleInformation(io_MyGarage);
+                    break;
+
+                case ("8"):
+                    io_ProgramContinue = false;
+                    break;
+
+                default:
+                    throw (new ValueOutOfRangeException(9, 1, "Please chose from the list of options (1-9) ! ! !"));
+            }
         }
 
         public static void AddNewVehicleToGarage(Garage io_MyGarage)
@@ -87,12 +162,12 @@ namespace Ex03_ConsoleUI
 
         public static bool ValidPhoneNumber(string i_ownerPhoneNumber)
         {
-            int fakeOutParameter;
+            int onlyToCheckIfNumber;
 
-            return int.TryParse(i_ownerPhoneNumber, out fakeOutParameter) && i_ownerPhoneNumber.Length == 10;
+            return int.TryParse(i_ownerPhoneNumber, out onlyToCheckIfNumber) && i_ownerPhoneNumber.Length == 10;
         }
 
-        public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot, string i_TypeOfVehicle)
+        public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot, string i_TypeOfVehicle) ///later on maybe try to split to methods
         {
             bool enterLoop = true;
 
@@ -170,6 +245,31 @@ namespace Ex03_ConsoleUI
             {
                 tire.M_ManufacturerName = manufacturerName;
             }
+
+            enterLoop = true;
+
+            while(enterLoop)
+            {
+                try
+                {
+                    Console.WriteLine("What is the current tire pressure in your vehicle?");
+                    string strInputCurrentTirePressure = Console.ReadLine();
+
+                    if (newGarageSlot.M_Vehicle.M_Tires[0].IsTirePressureWithinRange(strInputCurrentTirePressure))
+                    {
+                        foreach (Vehicle.Tire tire in newGarageSlot.M_Vehicle.M_Tires)
+                        {
+                            tire.M_CurrentTirePressure = Vehicle.ToFloat(strInputCurrentTirePressure);
+                        }
+                    }
+
+                    enterLoop = false;
+                }
+                catch(ValueOutOfRangeException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
         }
 
         public static void InflateVehicleTires(Garage io_MyGarage)
@@ -180,7 +280,7 @@ namespace Ex03_ConsoleUI
             licenseNumber = Console.ReadLine();
             GarageSlot tempGarageSlot = null;
 
-            if (io_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == false)
+            if (io_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == true)
             {
                 while (enterLoop == true)
                 {
@@ -188,7 +288,7 @@ namespace Ex03_ConsoleUI
 
                     try
                     {
-                        float tirePressureToAdd = tempGarageSlot.M_Vehicle.ToFloat(Console.ReadLine());
+                        float tirePressureToAdd = Vehicle.ToFloat(Console.ReadLine());
                         tempGarageSlot.InflateTires(tirePressureToAdd);
                         enterLoop = false;
                     }
@@ -207,7 +307,7 @@ namespace Ex03_ConsoleUI
             }
         }
 
-        public static void FuelVehicle(Garage io_MyGarage)
+        public static void FuelVehicle(Garage io_MyGarage) ///later on maybe try to split to methods
         {
             bool enterLoop = true;
             string licenseNumber = null;
@@ -251,7 +351,7 @@ namespace Ex03_ConsoleUI
                 {
                     try
                     {
-                        float amountOfFuelToAdd = tempGarageSlot.M_Vehicle.ToFloat(Console.ReadLine());
+                        float amountOfFuelToAdd = Vehicle.ToFloat(Console.ReadLine());
 
                         if(isTheVehicleElectric == true)
                         {
@@ -277,29 +377,31 @@ namespace Ex03_ConsoleUI
             {
                 throw (new ArgumentException("The vehicle with the license number you entered is not in the garage ! ! !"));
             }
-        }
+        } 
 
         public static void ChangeVehicleStatus(Garage io_MyGarage)
         {
             bool enterLoop = true;
-            GarageSlot.eGarageStatus newVehicleStatus;
             string ownerLicenseNumber = null;
+            GarageSlot.eGarageStatus newVehicleStatus;
             GarageSlot currentGarageSlot = null;
 
             Console.WriteLine("Please enter the vehicle license number");
             ownerLicenseNumber = Console.ReadLine();
+
             if (io_MyGarage.M_MyGarage.TryGetValue(ownerLicenseNumber, out currentGarageSlot) == false)
             {
                 throw (new ArgumentException("The vehicle with license number you entered does not exist in the garage ! ! !"));
             }
             else
             {
-                Console.Write("Choose one of the following vehicle's statuses:\n1.Being Fixed\n2.Ready\n3.Paid For");
+                Console.WriteLine("Choose one of the following vehicle's statuses:\n1.Being Fixed\n2.Ready\n3.Paid For");
+
                 while (enterLoop == true)
                 {
                     try
                     {
-                        newVehicleStatus = currentGarageSlot.ToEGarageStatus(Console.ReadLine()); //throws exception if needed.
+                        newVehicleStatus = GarageSlot.ToEGarageStatus(Console.ReadLine()); //throws exception if needed.
                         currentGarageSlot.UpdateVehicleStatus(newVehicleStatus);
                         enterLoop = false;
                     }
@@ -322,12 +424,67 @@ namespace Ex03_ConsoleUI
 
             if (i_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == true)
             {
+                Console.WriteLine(tempGarageSlot.ReturnGarageSlotInformation());
                 Console.WriteLine(tempGarageSlot.M_Vehicle.ReturnVehicleInformation());
             }
             else
             {
                 throw (new ArgumentException("The vehicle with the license number you entered is not in the garage ! ! !"));
             }
+        }
+
+        public static void PrintAllVehicleInTheGarage(Garage i_MyGarage, string i_UserChoiceOfAction)
+        {
+            string outputMessage = null;
+            int counter = 0;
+            if(i_UserChoiceOfAction == "2")
+            {
+                Console.WriteLine("All the vehicles' license number in the garage are:");
+
+                foreach (KeyValuePair<string, GarageSlot> currentEntryInTheDictionary in i_MyGarage.M_MyGarage)
+                {
+                    outputMessage = string.Format("{0}.{1}",counter+1,currentEntryInTheDictionary.Value.M_Vehicle.M_LicenseNumber);
+                    Console.WriteLine(outputMessage);
+                    counter += 1;
+                }
+            }
+            else
+            {
+                bool enterLoop = true;
+                List<string> listOfVehiclesFilterdByStatus;
+                GarageSlot.eGarageStatus userChoiceOfVehicleCondition = GarageSlot.eGarageStatus.BeingFixed; ///temporary.
+
+                while(enterLoop)
+                {
+                    try
+                    {
+                        Console.WriteLine("Please enter the condition of the vehicles in the garage that you'd like to see out of the following options by choosing a number:\n1.Being Fixed\n2.Ready\n3.Paid For");
+                        userChoiceOfVehicleCondition = GarageSlot.ToEGarageStatus(Console.ReadLine());
+                        enterLoop = false;
+                    }
+                    catch (FormatException exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
+                }
+
+                listOfVehiclesFilterdByStatus = i_MyGarage.CreateListByVehicleStatus(userChoiceOfVehicleCondition);
+                Console.WriteLine(string.Format("The vehicles in the garage that are {0} are:", userChoiceOfVehicleCondition.ToString()));
+
+                foreach (string currentVehicleLicenseNumber in listOfVehiclesFilterdByStatus)
+                {
+                    outputMessage = string.Format("{0}.{1}", counter + 1, currentVehicleLicenseNumber);
+                    Console.WriteLine(outputMessage);
+                    counter += 1;
+                }
+            }
+        }
+        
+        public static void ExitSequence()
+        {
+            Console.WriteLine("Thank for using the garage program, goodbye ! ! !");
+            System.Threading.Thread.Sleep(1000);
+            System.Environment.Exit(0);
         }
     }
 }

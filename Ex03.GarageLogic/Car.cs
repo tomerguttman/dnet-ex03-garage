@@ -9,7 +9,7 @@ namespace Ex03_GarageLogic
         protected const int k_NumOfTires = 4;
         protected const float k_CarTirePressure = 31;
 
-        protected Car(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires)
+        protected Car(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires, k_CarTirePressure)
         {
         }
 
@@ -32,7 +32,7 @@ namespace Ex03_GarageLogic
 
         public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
-            m_NumOfDoors = this.ToInt(i_FirstInputInformation);
+            m_NumOfDoors = ToInt(i_FirstInputInformation);
         }
 
         public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)

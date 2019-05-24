@@ -1,8 +1,11 @@
 ﻿
 namespace Ex03_ConsoleUI
 {
-    class Program
+    public class Program
     {
-
+        public static void Main()
+        {
+            ConsoleUI.GarageManagingProgram();
+        }
     }
 }

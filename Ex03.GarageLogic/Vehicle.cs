@@ -11,11 +11,16 @@ namespace Ex03_GarageLogic
         protected float m_CurrentAmountOfEnergy;
         protected Tire[] m_Tires;
 
-        protected Vehicle(string i_LicenseNumber, float i_MaxAmountOfEnergy, int i_NumOfTires)
+        protected Vehicle(string i_LicenseNumber, float i_MaxAmountOfEnergy, int i_NumOfTires, float i_MaxTirePressure)
         {
             m_LicenseNumber = i_LicenseNumber;
             M_MaxAmountOfEnergy = i_MaxAmountOfEnergy;
             m_Tires = new Tire[i_NumOfTires];
+
+            for (int i = 0; i < i_NumOfTires; i++)
+            {
+                m_Tires[i] = new Tire(i_MaxTirePressure);
+            }
         }
 
         public string M_ModelName
@@ -82,15 +87,7 @@ namespace Ex03_GarageLogic
         {
             foreach (Tire tire in m_Tires)
             {
-                try
-                {
-                    tire.InflateTire(i_AmountOfPressureToAdd);
-                }
-                catch (ValueOutOfRangeException exception)
-                {
-                    System.Console.WriteLine(exception.Message);
-                    break;
-                }
+                tire.InflateTire(i_AmountOfPressureToAdd);
             }
         }
 
@@ -98,7 +95,14 @@ namespace Ex03_GarageLogic
         {
             if(i_AmountOfEnergySourceToAdd + m_CurrentAmountOfEnergy > m_MaxAmountOfEnergy )
             {
-                throw (new ValueOutOfRangeException(m_MaxAmountOfEnergy, 0, "The amount that was entered is too much for this vehicle ! ! !"));  
+                if (this.GetType().ToString().ToLower().Contains("electric"))
+                {
+                    throw (new ValueOutOfRangeException(m_MaxAmountOfEnergy, 0, string.Format("The amount that was entered is too much for this vehicle ! ! ! you can only add up to {0} minutes.", (m_MaxAmountOfEnergy - m_CurrentAmountOfEnergy) * 60)));
+                }
+                else
+                {
+                    throw (new ValueOutOfRangeException(m_MaxAmountOfEnergy, 0, string.Format("The amount that was entered is too much for this vehicle ! ! ! you can only add up to {0}L.", m_MaxAmountOfEnergy - m_CurrentAmountOfEnergy)));
+                }
             }
             else
             {
@@ -113,7 +117,7 @@ namespace Ex03_GarageLogic
 
         abstract public void ParseSecondInputToInformationNeeded(string i_SecondInputInformation);
 
-        public int ToInt(string i_StrToParse)
+        public static int ToInt(string i_StrToParse)
         {
             int o_OutputInt = 0;
             bool didParseSucceed = int.TryParse(i_StrToParse, out o_OutputInt);
@@ -126,7 +130,7 @@ namespace Ex03_GarageLogic
             return o_OutputInt;
         }
 
-        public float ToFloat(string i_StrToParse)
+        public static float ToFloat(string i_StrToParse)
         {
             float o_OutputFloat = 0f;
             bool didParseSucceed = float.TryParse(i_StrToParse, out o_OutputFloat);
@@ -220,6 +224,13 @@ namespace Ex03_GarageLogic
             float m_CurrentTirePressure;
             float m_MaxTirePressure;
 
+            public Tire(float i_MaxTirePressure)
+            {
+                m_MaxTirePressure = i_MaxTirePressure;
+                m_ManufacturerName = null;
+                m_CurrentTirePressure = 0;
+            }
+
             public string M_ManufacturerName
             {
                 get
@@ -260,12 +271,29 @@ namespace Ex03_GarageLogic
             {
                 if (i_AmountOfPressureToAdd + m_CurrentTirePressure > m_MaxTirePressure)
                 {
-                    throw (new ValueOutOfRangeException(m_MaxTirePressure, 0, "The tire can't hold that much pressure ! ! !"));
+                    throw (new ValueOutOfRangeException(m_MaxTirePressure, 0, string.Format("The tire can't hold that much pressure ! ! ! there's only {0} psi left to fill.", m_MaxTirePressure - m_CurrentTirePressure)));
                 }
                 else
                 {
                     m_CurrentTirePressure += i_AmountOfPressureToAdd;
                 }
+            }
+
+            public bool IsTirePressureWithinRange(string i_StrInputCurrentTirePressure)
+            {
+                bool o_IsTirePressureWithinRange = false;
+                float inputCurrentTirePressure = ToFloat(i_StrInputCurrentTirePressure);
+
+                if (inputCurrentTirePressure >= 0 && inputCurrentTirePressure <= m_MaxTirePressure)
+                {
+                    o_IsTirePressureWithinRange = true;
+                }
+                else
+                {
+                    throw (new ValueOutOfRangeException(m_MaxTirePressure, 0, string.Format("Invalid input ! ! ! Please enter a pressure between 0 and {0}", m_MaxTirePressure)));
+                }
+
+                return o_IsTirePressureWithinRange;
             }
         }
     }

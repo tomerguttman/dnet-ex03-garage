@@ -87,7 +87,7 @@ namespace Ex03_GarageLogic
             m_CurrentStatus = i_NewVehicleStatus;
         }
 
-        public eGarageStatus ToEGarageStatus(string i_stringVehicleStatus)
+        public static eGarageStatus ToEGarageStatus(string i_stringVehicleStatus)
         {
             eGarageStatus vehicleStatus;
 
@@ -122,6 +122,18 @@ namespace Ex03_GarageLogic
             }
 
             return true;
+        }
+
+        public string ReturnGarageSlotInformation()
+        {
+            string o_GarageSlotInformation = string.Format(
+@"____________________________________________________
+
+Name: {0}    Phone Number: {1}    Vehicle Status: {2}
+
+", m_OwnerName, m_OwnerPhoneNumber, m_CurrentStatus);
+
+            return o_GarageSlotInformation;
         }
     }
 }

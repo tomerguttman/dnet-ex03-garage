@@ -9,7 +9,7 @@ namespace Ex03_GarageLogic
         protected const int k_NumOfTires = 2;
         protected const float k_MotorcycleTirePressure = 33; 
 
-        protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires) { }
+        protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires, k_MotorcycleTirePressure) { }
 
         public override string[] ReturnAdditionalInformationNeeded()
         {
@@ -27,7 +27,7 @@ namespace Ex03_GarageLogic
 
         public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)
         {
-            m_EngineVolume = this.ToInt(i_SecondInputInformation);
+            m_EngineVolume = ToInt(i_SecondInputInformation);
         }
 
         protected eLicenseType ReturnLicenseTypeIfValid(string i_StrInputLicenseType)
