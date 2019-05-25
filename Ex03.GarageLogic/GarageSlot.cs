@@ -9,6 +9,31 @@ namespace Ex03_GarageLogic
         private eGarageStatus m_CurrentStatus;
         private Vehicle m_Vehicle = null;
 
+        public static eGarageStatus ToEGarageStatus(string i_stringVehicleStatus)
+        {
+            eGarageStatus vehicleStatus;
+
+            switch (i_stringVehicleStatus)
+            {
+                case "1":
+                    vehicleStatus = eGarageStatus.BeingFixed;
+                    break;
+
+                case "2":
+                    vehicleStatus = eGarageStatus.Ready;
+                    break;
+
+                case "3":
+                    vehicleStatus = eGarageStatus.PaidFor;
+                    break;
+
+                default:
+                    throw new FormatException("Input invalid ! ! ! please enter a vehicle status from the given options ! ! !");
+            }
+
+            return vehicleStatus;
+        }
+
         public GarageSlot(string i_OwnerName, string i_OwnerPhoneNumber, Vehicle i_vehicle)
         {
             m_OwnerName = i_OwnerName;
@@ -30,6 +55,7 @@ namespace Ex03_GarageLogic
             {
                 return m_OwnerName;
             }
+
             set
             {
                 this.m_OwnerName = value;
@@ -42,6 +68,7 @@ namespace Ex03_GarageLogic
             {
                 return M_OwnerPhoneNumber;
             }
+
             set
             {
                 this.m_OwnerPhoneNumber = value;
@@ -54,6 +81,7 @@ namespace Ex03_GarageLogic
             {
                 return m_CurrentStatus;
             }
+
             set
             {
                 this.m_CurrentStatus = value;
@@ -66,6 +94,7 @@ namespace Ex03_GarageLogic
             {
                 return m_Vehicle;
             }
+
             set
             {
                 this.m_Vehicle = value;
@@ -84,7 +113,32 @@ namespace Ex03_GarageLogic
 
         public void UpdateVehicleStatus(eGarageStatus i_NewVehicleStatus)
         {
-            M_CurrentStatus = i_NewVehicleStatus;
+            m_CurrentStatus = i_NewVehicleStatus;
+        }
+
+        public bool IsFuelTypeCorrect(string i_StrInputFuelType)
+        {
+            if(m_Vehicle.ReturnFuelType() == m_Vehicle.ToEFuel(i_StrInputFuelType) == false)
+            {
+                throw new ArgumentException(string.Format("The fuel type you entered does not match the vehicle's ! ! ! The fuel type need is {0}", m_Vehicle.ReturnFuelType().ToString()));
+            }
+
+            return true;
+        }
+
+        public string ReturnGarageSlotInformation()
+        {
+            string o_GarageSlotInformation = string.Format(
+@"________________The_Requested_Vehicle________________
+
+Name: {0}    Phone Number: {1}    Vehicle Status: {2}
+
+",
+m_OwnerName,
+m_OwnerPhoneNumber,
+m_CurrentStatus);
+
+            return o_GarageSlotInformation;
         }
     }
 }

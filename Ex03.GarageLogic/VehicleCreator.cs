@@ -5,13 +5,23 @@ namespace Ex03_GarageLogic
 {
     public class VehicleCreator
     {
+        public static List<eVehicles> m_VehicleTypes = new List<eVehicles>();
+
         public enum eVehicles
         {
-            FuelCar,
             ElectricCar,
-            FuelMotorcycle,
             ElectricMotorcycle,
+            FuelCar,
+            FuelMotorcycle,
             Truck,
+        }
+
+        public static void InitializeVehicleTypeList()
+        {
+            for(eVehicles vehicleType = eVehicles.ElectricCar; vehicleType <= eVehicles.Truck; vehicleType++)
+            {
+                m_VehicleTypes.Add(vehicleType);
+            }
         }
 
         public static Vehicle CreateVehicle(eVehicles i_VehicleType, string i_LicenseNumber)
@@ -51,27 +61,27 @@ namespace Ex03_GarageLogic
 
             switch(i_ToConvert)
             {
-                case ("1"):
+                case "1":
                     vehicleType = eVehicles.ElectricCar;
                     break;
 
-                case ("2"):
+                case "2":
                     vehicleType = eVehicles.ElectricMotorcycle;
                     break;
 
-                case ("3"):
+                case "3":
                     vehicleType = eVehicles.FuelCar;
                     break;
 
-                case ("4"):
+                case "4":
                     vehicleType = eVehicles.FuelMotorcycle;
                     break;
 
-                case ("5"):
+                case "5":
                     vehicleType = eVehicles.Truck;
                     break;
                 default:
-                    throw (new ArgumentException("Invalid choice ! ! !"));
+                    throw new ArgumentException("Invalid choice ! ! !\nPlease enter a type from the list!");
             }
 
             return vehicleType;

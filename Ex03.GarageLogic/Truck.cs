@@ -4,121 +4,120 @@ namespace Ex03_GarageLogic
 {
     public class Truck : Vehicle
     {
-        bool m_IsHaulingDangerousMaterials;
-        float m_LoadVolume;
-        public const eFuel k_TypeOfFuel = eFuel.Soler;
-        private const int k_NumberOfTires = 12;
+        private const int k_NumOfTires = 12;
         private const float k_TruckTirePressure = 26;
         private const float k_MaxAmountOfFuel = 110;
+        private bool m_IsHaulingDangerousMaterials;
+        private float m_LoadVolume;
+        public const eFuel k_TypeOfFuel = eFuel.Soler;
 
+        public bool IsHaulingDangerousMaterials(string i_InputAnswer)
+        {
+            bool isHaulingDangerouseMaterials = false;
 
-        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumberOfTires)
+            if (i_InputAnswer.ToLower().Equals("yes"))
+            {
+                isHaulingDangerouseMaterials = true;
+            }
+            else if (i_InputAnswer.ToLower().Equals("no"))
+            {
+                isHaulingDangerouseMaterials = false;
+            }
+            else
+            {
+                throw new ArgumentException("Please answer 'yes' or 'no'");
+            }
+
+            return isHaulingDangerouseMaterials;
+        }
+
+        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumOfTires, k_TruckTirePressure)
         {
         }
 
-        bool M_IsHaulingDangerousMaterials
+        public override string[] ReturnAdditionalInformationNeeded()
         {
-            get
-            {
-                return m_IsHaulingDangerousMaterials;
-            }
-            set
-            {
-                this.m_IsHaulingDangerousMaterials = value;
-            }
+            string[] o_AdditionalInformation = new string[2];
+            o_AdditionalInformation[0] = "Is the truck hauling dangerous materials?";
+            o_AdditionalInformation[1] = "Enter the load volume of the truck:";
+
+            return o_AdditionalInformation;
         }
 
-        float M_LoadVolume
+        public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
+        {
+            m_IsHaulingDangerousMaterials = this.IsHaulingDangerousMaterials(i_FirstInputInformation);
+        }
+
+        public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)
+        {
+            m_LoadVolume = ToFloat(i_SecondInputInformation);
+        }
+
+        public float M_LoadVolume
         {
             get
             {
                 return m_LoadVolume;
             }
+
             set
             {
                 this.m_LoadVolume = value;
             }
         }
 
-        public override string M_ModelName
+        public bool M_IsHaulingDangerousMaterials
         {
             get
             {
-                return m_ModelName;
+                return m_IsHaulingDangerousMaterials;
             }
+
             set
             {
-                this.m_ModelName = value;
+                this.m_IsHaulingDangerousMaterials = value;
             }
         }
 
-        public override string M_LicenseNumber
+        public override eFuel ReturnFuelType()
         {
-            get
-            {
-                return m_LicenseNumber;
-            }
-            set
-            {
-                this.m_LicenseNumber = value;
-            }
+            return k_TypeOfFuel;
         }
 
-        public override float M_EnergyPercentage
+        public override string ReturnVehicleInformation()
         {
-            get
-            {
-                return m_EnergyPercentage;
-            }
-            set
-            {
-                this.m_EnergyPercentage = (m_CurrentAmountOfEnergy / m_MaxAmountOfEnergy) * 100;
-            }
-        }
+            string vehicleInformation = string.Format(
+@"-Vehicle Type: {0}
+-Model Name: {1}
+-License Number: {2}
+-Tire Manufacturer: {3}
+-Current Tire Pressure: {4}
+-Max Tire Pressure: {5}
+-Number Of Tires: {6}
+-Max Fuel Amount (Liters): {7}
+-Current Fuel Level (Liters): {8}
+-Current Fuel Level (Percentage): {9}
+-Load Volume: {10}
+-Is Hauling dangerous materials: {11}
+-Fuel Type: {12}
+____________________________________________________
+",
+"Truck",
+m_ModelName,
+m_LicenseNumber,
+m_Tires[0].M_ManufacturerName,
+m_Tires[0].M_CurrentTirePressure,
+m_Tires[0].M_MaxtTirePressure,
+k_NumOfTires,
+m_MaxAmountOfEnergy,
+m_CurrentAmountOfEnergy,
+m_EnergyPercentage,
+m_LoadVolume,
+m_IsHaulingDangerousMaterials,
+ReturnFuelType().ToString());
 
-        public override float M_CurrentAmountOfEnergy
-        {
-            get
-            {
-                return m_CurrentAmountOfEnergy;
-            }
-            set
-            {
-                this.m_CurrentAmountOfEnergy = value;
-            }
-        }
-
-        public override float M_MaxAmountOfEnergy
-        {
-            get
-            {
-                return m_MaxAmountOfEnergy;
-            }
-            set
-            {
-                this.m_MaxAmountOfEnergy = value;
-            }
-        }
-
-        public override Tire[] M_Tires
-        {
-            get
-            {
-
-                return m_Tires;
-            }
-            set
-            {
-                this.m_Tires = value;
-            }
-        }
-
-        eFuel K_TypeOfFuel
-        {
-            get
-            {
-                return k_TypeOfFuel;
-            }
+            return vehicleInformation;
         }
     }
 }

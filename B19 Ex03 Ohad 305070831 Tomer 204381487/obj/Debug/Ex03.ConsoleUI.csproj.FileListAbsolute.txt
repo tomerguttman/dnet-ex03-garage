@@ -1,0 +1,7 @@
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\obj\Debug\Ex03.ConsoleUI.csprojResolveAssemblyReference.cache
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\bin\Debug\Ex03.ConsoleUI.exe
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\bin\Debug\Ex03.ConsoleUI.pdb
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\bin\Debug\Ex03.GarageLogic.dll
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\bin\Debug\Ex03.GarageLogic.pdb
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\obj\Debug\Ex03.ConsoleUI.exe
+C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\B19 Ex03 Ohad 305070831 Tomer 204381487\obj\Debug\Ex03.ConsoleUI.pdb

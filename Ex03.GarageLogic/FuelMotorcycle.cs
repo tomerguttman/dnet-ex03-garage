@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ex03_GarageLogic
+﻿namespace Ex03_GarageLogic
 {
     public class FuelMotorcycle : Motorcycle
     {
@@ -9,88 +7,46 @@ namespace Ex03_GarageLogic
 
         public FuelMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxAmountOfFuel)
         {
-
         }
 
-        //public override string M_ModelName
-        //{
-        //    get
-        //    {
-        //        return m_ModelName;
-        //    }
-        //    set
-        //    {
-        //        this.m_ModelName = value;
-        //    }
-        //}
-
-        //public override string M_LicenseNumber
-        //{
-        //    get
-        //    {
-        //        return m_LicenseNumber;
-        //    }
-        //    set
-        //    {
-        //        this.m_LicenseNumber = value;
-        //    }
-        //}
-
-        //public override float M_EnergyPercentage
-        //{
-        //    get
-        //    {
-        //        return m_EnergyPercentage;
-        //    }
-        //    set
-        //    {
-        //        this.m_EnergyPercentage = (m_CurrentAmountOfEnergy / m_MaxAmountOfEnergy) * 100;
-        //    }
-        //}
-
-        //public override float M_CurrentAmountOfEnergy
-        //{
-        //    get
-        //    {
-        //        return m_CurrentAmountOfEnergy;
-        //    }
-        //    set
-        //    {
-        //        this.m_CurrentAmountOfEnergy = value;
-        //    }
-        //}
-
-        //public override float M_MaxAmountOfEnergy
-        //{
-        //    get
-        //    {
-        //        return m_MaxAmountOfEnergy;
-        //    }
-        //    set
-        //    {
-        //        this.m_MaxAmountOfEnergy = value;
-        //    }
-        //}
-
-        //public override Tire[] M_Tires
-        //{
-        //    get
-        //    {
-
-        //        return m_Tires;
-        //    }
-        //    set
-        //    {
-        //        this.m_Tires = value;
-        //    }
-        //}
-
-        public eFuel K_TypeOfFuel
+        public override eFuel ReturnFuelType()
         {
-            get
-            {
-                return k_TypeOfFuel;
-            }
+            return k_TypeOfFuel;
+        }
+
+        public override string ReturnVehicleInformation()
+        {
+            string vehicleInformation = string.Format(
+@"-Vehicle Type: {0}
+-Model Name: {1}
+-License Number: {2}
+-Tire Manufacturer: {3}
+-Current Tire Pressure: {4}
+-Max Tire Pressure: {5}
+-Number Of Tires: {6}
+-Max Fuel Amount (Liters): {7}
+-Current Fuel Level (Liters): {8}
+-Current Fuel Level (Percentage): {9}
+-Engine Volume: {10}
+-License Type: {11}
+-Fuel Type: {12}
+____________________________________________________
+",
+"Fuel Motrcycle",
+m_ModelName,
+m_LicenseNumber,
+m_Tires[0].M_ManufacturerName,
+m_Tires[0].M_CurrentTirePressure,
+m_Tires[0].M_MaxtTirePressure,
+k_NumOfTires,
+m_MaxAmountOfEnergy,
+m_CurrentAmountOfEnergy,
+m_EnergyPercentage,
+M_EngineVolume,
+M_LicenseType.ToString(),
+ReturnFuelType().ToString());
+
+            return vehicleInformation;
         }
     }
 }
