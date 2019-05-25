@@ -34,21 +34,21 @@ namespace Ex03_GarageLogic
         {
             eLicenseType o_LicenseType;
 
-            switch (i_StrInputLicenseType)
+            switch (i_StrInputLicenseType.ToLower())
             {
-                case "A":
+                case "a":
                     o_LicenseType = eLicenseType.A;
                     break;
 
-                case "A1":
+                case "a1":
                     o_LicenseType = eLicenseType.A1;
                     break;
 
-                case "A2":
+                case "a2":
                     o_LicenseType = eLicenseType.A2;
                     break;
 
-                case "B":
+                case "b":
                     o_LicenseType = eLicenseType.B; ;
                     break;
 

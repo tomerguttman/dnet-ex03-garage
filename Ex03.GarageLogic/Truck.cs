@@ -85,19 +85,19 @@ namespace Ex03_GarageLogic
         public override string ReturnVehicleInformation()
         {
             string vehicleInformation = string.Format(
-@" Vehicle Type: {0}
-Model Name: {1}
-License Number: {2}
-Tire Manufacturer: {3}
-Current Tire Pressure: {4}
-Max Tire Pressure {5}
-Number Of Tires: {6}
-Max Fuel Amount (Liters): {7}
-Current Fuel Level (Liters): {8}
-Current Fuel Level (Percentage): {9}
-Load Volume: {10}
-Is Hauling dangerous materials: {11}
-Fuel Type: {12}
+@"-Vehicle Type: {0}
+-Model Name: {1}
+-License Number: {2}
+-Tire Manufacturer: {3}
+-Current Tire Pressure: {4}
+-Max Tire Pressure: {5}
+-Number Of Tires: {6}
+-Max Fuel Amount (Liters): {7}
+-Current Fuel Level (Liters): {8}
+-Current Fuel Level (Percentage): {9}
+-Load Volume: {10}
+-Is Hauling dangerous materials: {11}
+-Fuel Type: {12}
 ____________________________________________________
 ",
 "Truck",

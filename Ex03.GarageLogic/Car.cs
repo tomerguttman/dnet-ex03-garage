@@ -33,6 +33,10 @@ namespace Ex03_GarageLogic
         public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
             m_NumOfDoors = ToInt(i_FirstInputInformation);
+            if(m_NumOfDoors < 2 || m_NumOfDoors > 5)
+            {
+                throw (new ArgumentException("The amount of doors must be between 2-5 ! ! !"));
+            }
         }
 
         public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)

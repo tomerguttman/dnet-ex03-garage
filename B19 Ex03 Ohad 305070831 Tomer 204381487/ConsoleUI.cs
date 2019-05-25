@@ -10,6 +10,7 @@ namespace Ex03_ConsoleUI
         {
             Garage myGarage = new Garage();
             bool programContinue = true;
+            VehicleCreator.InitializeVehicleTypeList();
 
             while (programContinue)
             {
@@ -19,10 +20,12 @@ namespace Ex03_ConsoleUI
                 {
                     ManageUserChoiseOfAction(myGarage, Console.ReadLine(), ref programContinue);
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
+
+                System.Threading.Thread.Sleep(1000);
             }
 
             ExitSequence();
@@ -40,7 +43,8 @@ namespace Ex03_ConsoleUI
 5.Inflate all tires of a vehicle.
 6.Refill energy source (Fuel/Electric).
 7.Display full information of a vehicle.
-8.Exit the program.
+8.Release vehicle from the garage.
+9.Exit the program.
 
 Please choose your action by entering a number between 1-9");
             Console.WriteLine(garageMenu);
@@ -80,82 +84,117 @@ Please choose your action by entering a number between 1-9");
                     break;
 
                 case ("8"):
+                    RemoveVehicleFromTheGarage(io_MyGarage);
+                    break;
+
+                case ("9"):
                     io_ProgramContinue = false;
                     break;
 
                 default:
-                    throw (new ValueOutOfRangeException(9, 1, "Please chose from the list of options (1-9) ! ! !"));
+                    throw (new ValueOutOfRangeException(9, 1, "Please choose from the list of options (1-9) ! ! !"));
             }
         }
 
         public static void AddNewVehicleToGarage(Garage io_MyGarage)
         {
-            Vehicle newVehicle = null;
-            string licenseNumber = null;
-            string typeOfVehicle = null;
+            string vehicleLicenseNumber = null;
 
             Console.Write("Please enter the Vehicle's License number: ");
-            licenseNumber = Console.ReadLine();
-            Console.WriteLine("choose one of the following vehicles by number: 1.Electric Car\n2.Electric Motorcycle\n3.Fuel Car\n4.Fuel Motorcycle\n5.Truck");
-
+            vehicleLicenseNumber = Console.ReadLine();
+            
             try
             {
-                typeOfVehicle = Console.ReadLine();
-                newVehicle = VehicleCreator.CreateVehicle(VehicleCreator.ToEVehicle(typeOfVehicle), licenseNumber);
+                AddGarageSlotToTheGarage(io_MyGarage, vehicleLicenseNumber);
+                Console.WriteLine("Success, your vehicle was entered to the garage!\n");
             }
-            catch (ArgumentException exception)
+            catch(Exception excption)
             {
-                System.Console.WriteLine(exception.Message);
+                Console.WriteLine(excption.Message);
             }
-
-            AddGarageSlotToTheGarage(io_MyGarage, newVehicle, typeOfVehicle);
         }
 
-        public static void AddGarageSlotToTheGarage(Garage io_MyGarage, Vehicle i_newVehicle, string i_TypeOfVehicle)
+        public static void AddGarageSlotToTheGarage(Garage io_MyGarage, string i_VehicleLicenseNumber)
         {
             bool enterLoop = true;
+            int counterIndicator = 1;
+            string typeOfVehicle = null;
             GarageSlot newGarageSlot = null;
+            Vehicle newVehicle = null;
 
-            if (io_MyGarage.M_MyGarage.TryGetValue(i_newVehicle.M_LicenseNumber, out newGarageSlot) == false)
+            if (io_MyGarage.M_MyGarage.TryGetValue(i_VehicleLicenseNumber, out newGarageSlot) == false)
             {
-                while (enterLoop)
+                Console.WriteLine("choose one of the following vehicles by number:"); ///1.Electric Car\n2.Electric Motorcycle\n3.Fuel Car\n4.Fuel Motorcycle\n5.Truck
+
+                foreach (VehicleCreator.eVehicles currentType in VehicleCreator.m_VehicleTypes)
+                {
+                    Console.WriteLine(string.Format("{0}.{1}", counterIndicator, currentType.ToString()));
+                    counterIndicator += 1;
+                }
+
+                while (enterLoop == true)
                 {
                     try
                     {
-                        CreateNewGarageSlot(out newGarageSlot, i_newVehicle);
+                        typeOfVehicle = Console.ReadLine();
+                        newVehicle = VehicleCreator.CreateVehicle(VehicleCreator.ToEVehicle(typeOfVehicle), i_VehicleLicenseNumber);
                         enterLoop = false;
                     }
-                    catch (FormatException exception)
+                    catch (Exception exception)
                     {
-                        enterLoop = true;
                         System.Console.WriteLine(exception.Message);
                     }
                 }
 
-                RecieveAdditionalVehicleInformation(newGarageSlot, i_TypeOfVehicle);
-                io_MyGarage.M_MyGarage.Add(i_newVehicle.M_LicenseNumber, newGarageSlot);
+                enterLoop = true;
+
+                while (enterLoop)
+                {
+                    try
+                    {
+                        CreateNewGarageSlot(out newGarageSlot, newVehicle);
+                        enterLoop = false;
+                    }
+                    catch (FormatException exception)
+                    {
+                        System.Console.WriteLine(exception.Message);
+                    }
+                }
+
+                RecieveAdditionalVehicleInformation(newGarageSlot, typeOfVehicle);
+                io_MyGarage.M_MyGarage.Add(newVehicle.M_LicenseNumber, newGarageSlot);
             }
             else
             {
                 newGarageSlot.UpdateVehicleStatus(GarageSlot.eGarageStatus.BeingFixed);
+                throw (new ArgumentException("The vehicle is already in the garage! It's status was updated to Being Fixed."));
             }
         }
 
         public static void CreateNewGarageSlot(out GarageSlot o_NewGarageSlot, Vehicle i_newVehicle)
         {
-            o_NewGarageSlot = null;
-
+            bool enterLoop = true;
             string ownerName = null;
             string ownerPhoneNumber = null;
+            o_NewGarageSlot = null;
 
             System.Console.WriteLine("Enter your name:");
             ownerName = System.Console.ReadLine();
             System.Console.WriteLine("Enter your phone Number (10 digit number with no spaces or hyphens '-' ):");
-            ownerPhoneNumber = System.Console.ReadLine();
-
-            if (ValidPhoneNumber(ownerPhoneNumber) == false)
+            while (enterLoop == true)
             {
-                throw (new FormatException("Invalid phone number ! ! !"));
+               try
+                {
+                    ownerPhoneNumber = System.Console.ReadLine();
+                    if (ValidPhoneNumber(ownerPhoneNumber) == true)
+                    {
+                        enterLoop = false;
+                    }
+                }
+                catch(Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
             }
             o_NewGarageSlot = new GarageSlot(ownerName, ownerPhoneNumber, i_newVehicle);
         }
@@ -164,7 +203,12 @@ Please choose your action by entering a number between 1-9");
         {
             int onlyToCheckIfNumber;
 
-            return int.TryParse(i_ownerPhoneNumber, out onlyToCheckIfNumber) && i_ownerPhoneNumber.Length == 10;
+            if ((int.TryParse(i_ownerPhoneNumber, out onlyToCheckIfNumber) && i_ownerPhoneNumber.Length == 10) == false )
+            {
+                throw (new FormatException("invalid phone number ! ! !"));
+            }
+
+            return true;
         }
 
         public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot, string i_TypeOfVehicle) ///later on maybe try to split to methods
@@ -265,7 +309,7 @@ Please choose your action by entering a number between 1-9");
 
                     enterLoop = false;
                 }
-                catch(ValueOutOfRangeException exception)
+                catch(Exception exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
@@ -275,6 +319,7 @@ Please choose your action by entering a number between 1-9");
         public static void InflateVehicleTires(Garage io_MyGarage)
         {
             bool enterLoop = true;
+            float tiresPressureBeforeUpdate = 0;
             string licenseNumber = null;
             Console.WriteLine("Enter the license number of the vehicle:");
             licenseNumber = Console.ReadLine();
@@ -282,6 +327,8 @@ Please choose your action by entering a number between 1-9");
 
             if (io_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == true)
             {
+                tiresPressureBeforeUpdate = tempGarageSlot.M_Vehicle.M_Tires[0].M_CurrentTirePressure;
+
                 while (enterLoop == true)
                 {
                     Console.WriteLine("What is the amount of pressure you would like to add?");
@@ -305,13 +352,17 @@ Please choose your action by entering a number between 1-9");
             {
                 throw (new ArgumentException("The vehicle with the license number you entered is not in the garage ! ! !"));
             }
+
+            Console.WriteLine(string.Format("Success, your vehicle's tires were inflated from {0} to {1}.\n", tiresPressureBeforeUpdate, tempGarageSlot.M_Vehicle.M_Tires[0].M_CurrentTirePressure));
         }
 
         public static void FuelVehicle(Garage io_MyGarage) ///later on maybe try to split to methods
         {
             bool enterLoop = true;
             string licenseNumber = null;
+            string outputSuccessMessage = null;
             bool isTheVehicleElectric = false;
+            float energySourceLevelBeforeUpdate = 0;
 
             Console.WriteLine("Enter the license number of the vehicle:");
             licenseNumber = Console.ReadLine();
@@ -320,6 +371,7 @@ Please choose your action by entering a number between 1-9");
 
             if (io_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == true)
             {
+                energySourceLevelBeforeUpdate = tempGarageSlot.M_Vehicle.M_CurrentAmountOfEnergy;
                 isTheVehicleElectric = tempGarageSlot.M_Vehicle.GetType().ToString().ToLower().Contains("electric");
 
                 if (isTheVehicleElectric == true)
@@ -336,7 +388,7 @@ Please choose your action by entering a number between 1-9");
                             bool isTypeOfFuelCorrect = tempGarageSlot.IsFuelTypeCorrect(Console.ReadLine());
                             enterLoop = false;
                         }
-                        catch(ArgumentException exception)
+                        catch(Exception exception)
                         {
                             Console.WriteLine(exception.Message);
                         }
@@ -357,13 +409,15 @@ Please choose your action by entering a number between 1-9");
                         {
                             amountOfFuelToAdd /= 60;
                             tempGarageSlot.RefillEnergySource(amountOfFuelToAdd);
+                            outputSuccessMessage = string.Format("Success, your vehicle's battery was charged from {0} to {1}.\n", energySourceLevelBeforeUpdate, tempGarageSlot.M_Vehicle.M_CurrentAmountOfEnergy);
+
                         }
                         else
                         {
                             tempGarageSlot.RefillEnergySource(amountOfFuelToAdd);
-
+                            outputSuccessMessage = string.Format("Success, your vehicle's tank was refueled from {0} to {1}.\n", energySourceLevelBeforeUpdate, tempGarageSlot.M_Vehicle.M_CurrentAmountOfEnergy);
                         }
-
+                
                         enterLoop = false;
                     }
                     catch (Exception exception)
@@ -377,13 +431,15 @@ Please choose your action by entering a number between 1-9");
             {
                 throw (new ArgumentException("The vehicle with the license number you entered is not in the garage ! ! !"));
             }
+
+            Console.Write(outputSuccessMessage);
         } 
 
         public static void ChangeVehicleStatus(Garage io_MyGarage)
         {
             bool enterLoop = true;
             string ownerLicenseNumber = null;
-            GarageSlot.eGarageStatus newVehicleStatus;
+            GarageSlot.eGarageStatus newVehicleStatus = GarageSlot.eGarageStatus.BeingFixed;
             GarageSlot currentGarageSlot = null;
 
             Console.WriteLine("Please enter the vehicle license number");
@@ -401,7 +457,7 @@ Please choose your action by entering a number between 1-9");
                 {
                     try
                     {
-                        newVehicleStatus = GarageSlot.ToEGarageStatus(Console.ReadLine()); //throws exception if needed.
+                        newVehicleStatus = GarageSlot.ToEGarageStatus(Console.ReadLine());
                         currentGarageSlot.UpdateVehicleStatus(newVehicleStatus);
                         enterLoop = false;
                     }
@@ -410,6 +466,8 @@ Please choose your action by entering a number between 1-9");
                         Console.WriteLine(exception.Message);
                     }
                 }
+
+                Console.WriteLine(string.Format("Success, vehicle license number {0} condition was updated to {1}.\n", ownerLicenseNumber, newVehicleStatus.ToString()));
             }
         }
 
@@ -477,9 +535,41 @@ Please choose your action by entering a number between 1-9");
                     Console.WriteLine(outputMessage);
                     counter += 1;
                 }
+            }       
+        }
+
+        public static void RemoveVehicleFromTheGarage(Garage io_MyGarage)
+        {
+            string licenseNumber = null;
+            GarageSlot tempGarageSlot = null;
+            bool wasTheVehicleReleased = false;
+
+            Console.WriteLine("Enter the license number of the vehicle:");
+            licenseNumber = Console.ReadLine();
+
+            if (io_MyGarage.M_MyGarage.TryGetValue(licenseNumber, out tempGarageSlot) == true)
+            {
+                try
+                {
+                    io_MyGarage.RemoveVehicleFromTheGarage(tempGarageSlot);
+                    wasTheVehicleReleased = true;
+                }
+                catch(Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
+            else
+            {
+                throw (new ArgumentException("The vehicle with the license number you entered is not in the garage ! ! !\n"));
+            }
+
+            if (wasTheVehicleReleased == true)
+            {
+                Console.WriteLine(string.Format("Vehicle license number {0} was delivered to {1} successfully!\n", licenseNumber, tempGarageSlot.M_OwnerName));
             }
         }
-        
+
         public static void ExitSequence()
         {
             Console.WriteLine("Thank for using the garage program, goodbye ! ! !");

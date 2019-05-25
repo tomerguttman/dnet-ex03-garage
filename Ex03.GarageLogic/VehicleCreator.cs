@@ -5,13 +5,23 @@ namespace Ex03_GarageLogic
 {
     public class VehicleCreator
     {
+        public static List<eVehicles> m_VehicleTypes = new List<eVehicles>();
+
         public enum eVehicles
         {
-            FuelCar,
             ElectricCar,
-            FuelMotorcycle,
             ElectricMotorcycle,
+            FuelCar,
+            FuelMotorcycle,
             Truck,
+        }
+
+        public static void InitializeVehicleTypeList()
+        {
+            for(eVehicles vehicleType = eVehicles.ElectricCar; vehicleType <= eVehicles.Truck; vehicleType++)
+            {
+                m_VehicleTypes.Add(vehicleType);
+            }
         }
 
         public static Vehicle CreateVehicle(eVehicles i_VehicleType, string i_LicenseNumber)
@@ -76,5 +86,6 @@ namespace Ex03_GarageLogic
 
             return vehicleType;
         }
+
     }
 }

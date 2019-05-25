@@ -124,7 +124,7 @@ namespace Ex03_GarageLogic
 
             if (didParseSucceed == false)
             {
-                throw (new FormatException("Invalid input ! ! !"));
+                throw (new FormatException("Invalid input ! ! ! input must be an integer number."));
             }
 
             return o_OutputInt;
@@ -193,7 +193,7 @@ namespace Ex03_GarageLogic
 
             switch (i_strFuelInput.ToLower())
             {
-                case "octan95":
+                case "octane95":
                     fuelType = eFuel.Octane95;
                     break;
 

@@ -19,18 +19,18 @@ namespace Ex03_GarageLogic
         public override string ReturnVehicleInformation()
         {
             string vehicleInformation = string.Format(
-@"Vehicle Type: {0}
-Model Name: {1}
-License Number: {2}
-Tire Manufacturer: {3}
-Current Tire Pressure: {4}
-Max Tire Pressure {5}
-Number Of Tires: {6}
-Max Battery Level In Hours: {7}
-Hours Left In Battery: {8}
-Current Battery Level (Percentage): {9}
-Engine Volume: {10}
-License Type: {11}
+@"-Vehicle Type: {0}
+-Model Name: {1}
+-License Number: {2}
+-Tire Manufacturer: {3}
+-Current Tire Pressure: {4}
+-Max Tire Pressure: {5}
+-Number Of Tires: {6}
+-Max Battery Level In Hours: {7}
+-Hours Left In Battery: {8}
+-Current Battery Level (Percentage): {9}
+-Engine Volume: {10}
+-License Type: {11}
 ____________________________________________________
 ",
 "Electric Motorcycle",

@@ -12,9 +12,14 @@ namespace Ex03_GarageLogic
             m_MyGarage.Add(i_NewGarageSlot.M_Vehicle.M_LicenseNumber, i_NewGarageSlot);
         }
 
-        public bool RemoveVehicleFromTheGarage(GarageSlot i_GarageSlotToRemove)
+        public void RemoveVehicleFromTheGarage(GarageSlot i_GarageSlotToRemove)
         {
-           return m_MyGarage.Remove(i_GarageSlotToRemove.M_Vehicle.M_LicenseNumber);
+            if (i_GarageSlotToRemove.M_CurrentStatus != GarageSlot.eGarageStatus.PaidFor)
+            {
+                throw (new ArgumentException(string.Format("The vehicle cannot be released to {0} because it wasn't paid for!\n", i_GarageSlotToRemove.M_OwnerName)));
+            }
+
+            m_MyGarage.Remove(i_GarageSlotToRemove.M_Vehicle.M_LicenseNumber);
         }
 
         public List<string> CreateListByVehicleStatus(GarageSlot.eGarageStatus i_FilterStatus)

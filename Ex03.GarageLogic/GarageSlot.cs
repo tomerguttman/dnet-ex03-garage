@@ -114,11 +114,9 @@ namespace Ex03_GarageLogic
 
         public bool IsFuelTypeCorrect(string i_StrInputFuelType)
         {
-            ;
-
             if(m_Vehicle.ReturnFuelType() == m_Vehicle.ToEFuel(i_StrInputFuelType) == false)
             {
-                throw (new ArgumentException("The fuel type you entered does not match the vehicle's ! ! !"));
+                throw (new ArgumentException(string.Format("The fuel type you entered does not match the vehicle's ! ! ! The fuel type need is {0}",m_Vehicle.ReturnFuelType().ToString())));
             }
 
             return true;
@@ -127,7 +125,7 @@ namespace Ex03_GarageLogic
         public string ReturnGarageSlotInformation()
         {
             string o_GarageSlotInformation = string.Format(
-@"____________________________________________________
+@"________________The_Requested_Vehicle________________
 
 Name: {0}    Phone Number: {1}    Vehicle Status: {2}
 
