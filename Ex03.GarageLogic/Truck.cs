@@ -1,4 +1,6 @@
-﻿namespace Ex03_GarageLogic
+﻿using System;
+
+namespace Ex03_GarageLogic
 {
     public class Truck : Vehicle
     {
@@ -9,7 +11,7 @@
         private float m_LoadVolume;
         public const eFuel k_TypeOfFuel = eFuel.Soler;
 
-        public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
+        public bool IsHaulingDangerousMaterials(string i_InputAnswer)
         {
             bool isHaulingDangerouseMaterials = false;
 
@@ -44,7 +46,7 @@
 
         public override void ParseFirstInputToInformationNeeded(string i_FirstInputInformation)
         {
-            m_IsHaulingDangerousMaterials = IsHaulingDangerousMaterials(i_FirstInputInformation);
+            m_IsHaulingDangerousMaterials = this.IsHaulingDangerousMaterials(i_FirstInputInformation);
         }
 
         public override void ParseSecondInputToInformationNeeded(string i_SecondInputInformation)

@@ -6,12 +6,12 @@ namespace Ex03_ConsoleUI
 {
     public static class ConsoleUI
     {
-        public static void GarageManagingProgram() // main method //
+        public static void GarageManagingProgram()
         {
             Garage myGarage = new Garage();
             bool programContinue = true;
             VehicleCreator.InitializeVehicleTypeList();
-
+            PrintGarageIntro();
             while (programContinue)
             {
                 PrintGarageMenu();
@@ -124,7 +124,7 @@ Please choose your action by entering a number between 1-9");
 
             if (io_MyGarage.M_MyGarage.TryGetValue(i_VehicleLicenseNumber, out newGarageSlot) == false)
             {
-                Console.WriteLine("choose one of the following vehicles by number:");
+                Console.WriteLine("Choose one of the following vehicles by number:");
 
                 foreach (VehicleCreator.eVehicles currentType in VehicleCreator.m_VehicleTypes)
                 {
@@ -212,7 +212,6 @@ Please choose your action by entering a number between 1-9");
             return true;
         }
 
-        ///later on maybe try to split to methods
         public static void RecieveAdditionalVehicleInformation(GarageSlot io_NewGarageSlot, string i_TypeOfVehicle)
         {
             bool enterLoop = true;
@@ -222,7 +221,7 @@ Please choose your action by entering a number between 1-9");
 
             if (i_TypeOfVehicle.Equals("1") || i_TypeOfVehicle.Equals("2"))
             {
-                Console.WriteLine("how much battery life remains in the vehicle (in hours)?");
+                Console.WriteLine("How much battery life remains in the vehicle (in hours)?");
             }
             else
             {
@@ -526,13 +525,20 @@ Please choose your action by entering a number between 1-9");
                 }
 
                 listOfVehiclesFilterdByStatus = i_MyGarage.CreateListByVehicleStatus(userChoiceOfVehicleCondition);
-                Console.WriteLine(string.Format("The vehicles in the garage that are {0} are:", userChoiceOfVehicleCondition.ToString()));
-
-                foreach (string currentVehicleLicenseNumber in listOfVehiclesFilterdByStatus)
+                if (listOfVehiclesFilterdByStatus.Count > 0)
                 {
-                    outputMessage = string.Format("{0}.{1}", counter + 1, currentVehicleLicenseNumber);
-                    Console.WriteLine(outputMessage);
-                    counter += 1;
+                    Console.WriteLine(string.Format("The vehicles in the garage that are {0} are:", userChoiceOfVehicleCondition.ToString()));
+
+                    foreach (string currentVehicleLicenseNumber in listOfVehiclesFilterdByStatus)
+                    {
+                        outputMessage = string.Format("{0}.{1}", counter + 1, currentVehicleLicenseNumber);
+                        Console.WriteLine(outputMessage);
+                        counter += 1;
+                    }
+                }
+                else
+                {
+                    throw new Exception("There are no vehicles in the garage with the chosen condition!");
                 }
             }       
         }
@@ -567,6 +573,29 @@ Please choose your action by entering a number between 1-9");
             {
                 Console.WriteLine(string.Format("Vehicle license number {0} was delivered to {1} successfully!\n", licenseNumber, tempGarageSlot.M_OwnerName));
             }
+        }
+
+        public static void PrintGarageIntro()
+        {
+            string garageIntroText = string.Format(
+@"
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗     
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝    ╚══██╔══╝██╔═══██╗    
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗         ██║   ██║   ██║    
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝         ██║   ██║   ██║    
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗       ██║   ╚██████╔╝    
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝     
+                                                                                        
+████████╗██╗  ██╗███████╗     ██████╗  █████╗ ██████╗  █████╗  ██████╗ ███████╗         
+╚══██╔══╝██║  ██║██╔════╝    ██╔════╝ ██╔══██╗██╔══██╗██╔══██╗██╔════╝ ██╔════╝         
+   ██║   ███████║█████╗      ██║  ███╗███████║██████╔╝███████║██║  ███╗█████╗           
+   ██║   ██╔══██║██╔══╝      ██║   ██║██╔══██║██╔══██╗██╔══██║██║   ██║██╔══╝           
+   ██║   ██║  ██║███████╗    ╚██████╔╝██║  ██║██║  ██║██║  ██║╚██████╔╝███████╗         
+   ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+                    Created By: Ohad Slutzky and Tomer Guttman");
+            Console.WriteLine(garageIntroText);
+            System.Threading.Thread.Sleep(2000);
+            Console.Clear();
         }
 
         public static void ExitSequence()

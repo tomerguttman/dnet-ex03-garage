@@ -280,7 +280,7 @@ namespace Ex03_GarageLogic
             {
                 if (i_AmountOfPressureToAdd + m_CurrentTirePressure > m_MaxTirePressure)
                 {
-                    throw new ValueOutOfRangeException(m_MaxTirePressure, 0, string.Format("The tire can't hold that much pressure ! ! ! there's only {0} psi left to fill.", m_MaxTirePressure - m_CurrentTirePressure));
+                    throw new ValueOutOfRangeException(m_MaxTirePressure, 0, string.Format("The tires can't hold that much pressure ! ! ! there's only {0} psi left to fill.", m_MaxTirePressure - m_CurrentTirePressure));
                 }
                 else
                 {

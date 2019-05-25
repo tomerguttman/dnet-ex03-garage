@@ -1,5 +1,4 @@
 C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\Ex03.GarageLogic\bin\Debug\Ex03.GarageLogic.dll
 C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\Ex03.GarageLogic\bin\Debug\Ex03.GarageLogic.pdb
-C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.csprojResolveAssemblyReference.cache
 C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.dll
 C:\Users\Tomer\Documents\Computer Science Programming\.NET Framework C#\Task1\EX03_GARAGE\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.pdb
