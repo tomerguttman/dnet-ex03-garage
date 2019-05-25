@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ex03_GarageLogic
+﻿namespace Ex03_GarageLogic
 {
     public class ElectricMotorcycle : Motorcycle
     {

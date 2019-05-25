@@ -124,7 +124,7 @@ Please choose your action by entering a number between 1-9");
 
             if (io_MyGarage.M_MyGarage.TryGetValue(i_VehicleLicenseNumber, out newGarageSlot) == false)
             {
-                Console.WriteLine("choose one of the following vehicles by number:"); ///1.Electric Car\n2.Electric Motorcycle\n3.Fuel Car\n4.Fuel Motorcycle\n5.Truck
+                Console.WriteLine("choose one of the following vehicles by number:");
 
                 foreach (VehicleCreator.eVehicles currentType in VehicleCreator.m_VehicleTypes)
                 {
@@ -212,12 +212,13 @@ Please choose your action by entering a number between 1-9");
             return true;
         }
 
-        public static void RecieveAdditionalVehicleInformation(GarageSlot newGarageSlot, string i_TypeOfVehicle) ///later on maybe try to split to methods
+        ///later on maybe try to split to methods
+        public static void RecieveAdditionalVehicleInformation(GarageSlot io_NewGarageSlot, string i_TypeOfVehicle)
         {
             bool enterLoop = true;
 
             Console.WriteLine("Enter the vehicle's model name:");
-            newGarageSlot.M_Vehicle.M_ModelName = Console.ReadLine();
+            io_NewGarageSlot.M_Vehicle.M_ModelName = Console.ReadLine();
 
             if (i_TypeOfVehicle.Equals("1") || i_TypeOfVehicle.Equals("2"))
             {
@@ -232,7 +233,7 @@ Please choose your action by entering a number between 1-9");
             {
                 try
                 {
-                    newGarageSlot.M_Vehicle.UpdateEnergySource(Console.ReadLine());
+                    io_NewGarageSlot.M_Vehicle.UpdateEnergySource(Console.ReadLine());
                     enterLoop = false;
                 }
                 catch (Exception exception)
@@ -244,7 +245,7 @@ Please choose your action by entering a number between 1-9");
 
             enterLoop = true;
 
-            string[] outputAdditionalInformationNeeded = newGarageSlot.M_Vehicle.ReturnAdditionalInformationNeeded();
+            string[] outputAdditionalInformationNeeded = io_NewGarageSlot.M_Vehicle.ReturnAdditionalInformationNeeded();
             string[] additionalInformation = new string[2];
 
             Console.WriteLine(outputAdditionalInformationNeeded[0]);
@@ -254,7 +255,7 @@ Please choose your action by entering a number between 1-9");
                 try
                 {
                     additionalInformation[0] = Console.ReadLine();
-                    newGarageSlot.M_Vehicle.ParseFirstInputToInformationNeeded(additionalInformation[0]);
+                    io_NewGarageSlot.M_Vehicle.ParseFirstInputToInformationNeeded(additionalInformation[0]);
                     enterLoop = false;
                 }
                 catch (Exception exception)
@@ -273,7 +274,7 @@ Please choose your action by entering a number between 1-9");
                 try
                 {
                     additionalInformation[1] = Console.ReadLine();
-                    newGarageSlot.M_Vehicle.ParseSecondInputToInformationNeeded(additionalInformation[1]);
+                    io_NewGarageSlot.M_Vehicle.ParseSecondInputToInformationNeeded(additionalInformation[1]);
                     enterLoop = false;
                 }
                 catch (Exception exception)
@@ -286,7 +287,7 @@ Please choose your action by entering a number between 1-9");
             Console.WriteLine("What is the tires manufacturer name?");
             string manufacturerName = Console.ReadLine();
 
-            foreach (Vehicle.Tire tire in newGarageSlot.M_Vehicle.M_Tires)
+            foreach (Vehicle.Tire tire in io_NewGarageSlot.M_Vehicle.M_Tires)
             {
                 tire.M_ManufacturerName = manufacturerName;
             }
@@ -300,9 +301,9 @@ Please choose your action by entering a number between 1-9");
                     Console.WriteLine("What is the current tire pressure in your vehicle?");
                     string strInputCurrentTirePressure = Console.ReadLine();
 
-                    if (newGarageSlot.M_Vehicle.M_Tires[0].IsTirePressureWithinRange(strInputCurrentTirePressure))
+                    if (io_NewGarageSlot.M_Vehicle.M_Tires[0].IsTirePressureWithinRange(strInputCurrentTirePressure))
                     {
-                        foreach (Vehicle.Tire tire in newGarageSlot.M_Vehicle.M_Tires)
+                        foreach (Vehicle.Tire tire in io_NewGarageSlot.M_Vehicle.M_Tires)
                         {
                             tire.M_CurrentTirePressure = Vehicle.ToFloat(strInputCurrentTirePressure);
                         }
