@@ -4,15 +4,36 @@ namespace Ex03_GarageLogic
 {
     public class Truck : Vehicle
     {
-        bool m_IsHaulingDangerousMaterials;
-        float m_LoadVolume;
-        public const eFuel k_TypeOfFuel = eFuel.Soler;
         private const int k_NumOfTires = 12;
         private const float k_TruckTirePressure = 26;
         private const float k_MaxAmountOfFuel = 110;
+        private bool m_IsHaulingDangerousMaterials;
+        private float m_LoadVolume;
+        public const eFuel k_TypeOfFuel = eFuel.Soler;
 
+        public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
+        {
+            bool isHaulingDangerouseMaterials = false;
 
-        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumOfTires, k_TruckTirePressure) { }
+            if (i_InputAnswer.ToLower().Equals("yes"))
+            {
+                isHaulingDangerouseMaterials = true;
+            }
+            else if (i_InputAnswer.ToLower().Equals("no"))
+            {
+                isHaulingDangerouseMaterials = false;
+            }
+            else
+            {
+                throw new ArgumentException("Please answer 'yes' or 'no'");
+            }
+
+            return isHaulingDangerouseMaterials;
+        }
+
+        public Truck(string i_LicenseNumber ) : base(i_LicenseNumber, k_MaxAmountOfFuel, k_NumOfTires, k_TruckTirePressure)
+        {
+        }
 
         public override string[] ReturnAdditionalInformationNeeded()
         {
@@ -33,32 +54,13 @@ namespace Ex03_GarageLogic
             m_LoadVolume = ToFloat(i_SecondInputInformation);
         }
 
-        public static bool IsHaulingDangerousMaterials(string i_InputAnswer)
-        {
-            bool isHaulingDangerouseMaterials = false;
-
-            if (i_InputAnswer.ToLower().Equals("yes"))
-            {
-                isHaulingDangerouseMaterials = true;
-            }
-            else if (i_InputAnswer.ToLower().Equals("no"))
-            {
-                isHaulingDangerouseMaterials = false;
-            }
-            else
-            {
-                throw (new ArgumentException("Please answer 'yes' or 'no'"));
-            }
-
-            return isHaulingDangerouseMaterials;
-        }
-
         public float M_LoadVolume
         {
             get
             {
                 return m_LoadVolume;
             }
+
             set
             {
                 this.m_LoadVolume = value;
@@ -71,6 +73,7 @@ namespace Ex03_GarageLogic
             {
                 return m_IsHaulingDangerousMaterials;
             }
+
             set
             {
                 this.m_IsHaulingDangerousMaterials = value;

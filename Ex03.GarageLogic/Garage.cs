@@ -5,7 +5,7 @@ namespace Ex03_GarageLogic
 {
     public class Garage
     {
-        Dictionary<string, GarageSlot> m_MyGarage = new Dictionary<string, GarageSlot>();
+        public Dictionary<string, GarageSlot> m_MyGarage = new Dictionary<string, GarageSlot>();
 
         public void AddVehicleToTheGarage(GarageSlot i_NewGarageSlot)
         {
@@ -16,7 +16,7 @@ namespace Ex03_GarageLogic
         {
             if (i_GarageSlotToRemove.M_CurrentStatus != GarageSlot.eGarageStatus.PaidFor)
             {
-                throw (new ArgumentException(string.Format("The vehicle cannot be released to {0} because it wasn't paid for!\n", i_GarageSlotToRemove.M_OwnerName)));
+                throw new ArgumentException(string.Format("The vehicle cannot be released to {0} because it wasn't paid for!\n", i_GarageSlotToRemove.M_OwnerName));
             }
 
             m_MyGarage.Remove(i_GarageSlotToRemove.M_Vehicle.M_LicenseNumber);

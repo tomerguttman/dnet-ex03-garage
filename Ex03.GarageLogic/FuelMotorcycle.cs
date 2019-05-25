@@ -9,7 +9,6 @@ namespace Ex03_GarageLogic
 
         public FuelMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxAmountOfFuel)
         {
-
         }
 
         public override eFuel ReturnFuelType()

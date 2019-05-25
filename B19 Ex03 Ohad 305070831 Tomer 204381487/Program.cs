@@ -1,5 +1,4 @@
-﻿
-namespace Ex03_ConsoleUI
+﻿namespace Ex03_ConsoleUI
 {
     public class Program
     {

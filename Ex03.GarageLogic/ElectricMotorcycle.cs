@@ -2,13 +2,12 @@
 
 namespace Ex03_GarageLogic
 {
-    class ElectricMotorcycle : Motorcycle
+    public class ElectricMotorcycle : Motorcycle
     {
         private const float k_MaxHoursBatteryLife = 1.4f;
 
         public ElectricMotorcycle(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxHoursBatteryLife)
         {
-
         }
 
         public override eFuel ReturnFuelType()

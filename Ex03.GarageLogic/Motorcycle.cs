@@ -4,12 +4,14 @@ namespace Ex03_GarageLogic
 {
     public abstract class Motorcycle : Vehicle
     {
-        eLicenseType m_LicenceType;
-        int m_EngineVolume;
+        private eLicenseType m_LicenceType;
+        private int m_EngineVolume;
         protected const int k_NumOfTires = 2;
         protected const float k_MotorcycleTirePressure = 33; 
 
-        protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires, k_MotorcycleTirePressure) { }
+        protected Motorcycle(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires, k_MotorcycleTirePressure)
+        {
+        }
 
         public override string[] ReturnAdditionalInformationNeeded()
         {
@@ -49,11 +51,11 @@ namespace Ex03_GarageLogic
                     break;
 
                 case "b":
-                    o_LicenseType = eLicenseType.B; ;
+                    o_LicenseType = eLicenseType.B;
                     break;
 
                 default:
-                    throw (new ArgumentException("Please Choose one of the given license types ! ! !"));
+                    throw new ArgumentException("Please Choose one of the given license types ! ! !");
             }
 
             return o_LicenseType;
@@ -73,6 +75,7 @@ namespace Ex03_GarageLogic
             {
                 return m_LicenceType;
             }
+
             set
             {
                 this.m_LicenceType = value;
@@ -85,6 +88,7 @@ namespace Ex03_GarageLogic
             {
                 return m_EngineVolume;
             }
+
             set
             {
                 this.m_EngineVolume = value;
@@ -92,4 +96,3 @@ namespace Ex03_GarageLogic
         }
     }
 }
-

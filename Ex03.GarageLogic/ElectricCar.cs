@@ -2,9 +2,8 @@
 
 namespace Ex03_GarageLogic
 {
-    class ElectricCar : Car
+    public class ElectricCar : Car
     {
-        
         private const float k_MaxHoursBatteryLife = 1.8f;
 
         public ElectricCar(string i_LicenseNumber) : base(i_LicenseNumber, k_MaxHoursBatteryLife)

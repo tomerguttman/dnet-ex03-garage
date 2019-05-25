@@ -4,10 +4,10 @@ namespace Ex03_GarageLogic
 {
     public abstract class Car : Vehicle
     {
-        protected eColor m_CarColor;
-        protected int m_NumOfDoors;
         protected const int k_NumOfTires = 4;
         protected const float k_CarTirePressure = 31;
+        protected eColor m_CarColor;
+        protected int m_NumOfDoors;
 
         protected Car(string i_LicenseNumber, float i_MaxAmountOfEnergy) : base(i_LicenseNumber, i_MaxAmountOfEnergy, k_NumOfTires, k_CarTirePressure)
         {
@@ -35,7 +35,7 @@ namespace Ex03_GarageLogic
             m_NumOfDoors = ToInt(i_FirstInputInformation);
             if(m_NumOfDoors < 2 || m_NumOfDoors > 5)
             {
-                throw (new ArgumentException("The amount of doors must be between 2-5 ! ! !"));
+                throw new ArgumentException("The amount of doors must be between 2-5 ! ! !");
             }
         }
 
@@ -50,6 +50,7 @@ namespace Ex03_GarageLogic
             {
                 return m_CarColor;
             }
+
             set
             {
                 this.m_CarColor = value;
@@ -62,6 +63,7 @@ namespace Ex03_GarageLogic
             {
                 return m_NumOfDoors;
             }
+
             set
             {
                 this.m_NumOfDoors = value;
@@ -91,7 +93,7 @@ namespace Ex03_GarageLogic
                     break;
 
                 default:
-                    throw (new FormatException("Input invalid ! ! !\nPlease enter a color from the list!"));
+                    throw new FormatException("Input invalid ! ! !\nPlease enter a color from the list!");
             }
 
             return carColor;

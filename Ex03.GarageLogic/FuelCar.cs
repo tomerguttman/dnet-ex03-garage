@@ -2,7 +2,7 @@
 
 namespace Ex03_GarageLogic
 {
-    class FuelCar : Car
+    public class FuelCar : Car
     {
         private const float k_MaxAmountOfFuel = 55;
         private const eFuel k_TypeOfFuel = eFuel.Octane96;
